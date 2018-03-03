@@ -44,7 +44,7 @@ $x=1;
                                                         {!! Form::label('radio1', 'Pas du tout') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option1', true, ['id' => 'radio1']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -52,7 +52,7 @@ $x=1;
                                                         {!! Form::label('radio2', '1') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option2', false, ['id' => 'radio2']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '1', false, ['id' => 'radio2']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -60,7 +60,7 @@ $x=1;
                                                         {!! Form::label('radio3', 'Un peu') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option3', false, ['id' => 'radio3']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '2', false, ['id' => 'radio3']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -68,7 +68,7 @@ $x=1;
                                                         {!! Form::label('radio4', '3') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option4', false, ['id' => 'radio4']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '3', false, ['id' => 'radio4']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -76,7 +76,7 @@ $x=1;
                                                         {!! Form::label('radio5', 'Assez') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option5', false, ['id' => 'radio5']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '4', false, ['id' => 'radio5']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -84,7 +84,7 @@ $x=1;
                                                         {!! Form::label('radio6', '5') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option5', false, ['id' => 'radio5']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '5', false, ['id' => 'radio6']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -92,7 +92,7 @@ $x=1;
                                                         {!! Form::label('radio7', 'Tout à fait') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('radio'.$i, 'option7', false, ['id' => 'radio7']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '6', false, ['id' => 'radio7']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%; min-width:100px;text-align: center;">
@@ -100,7 +100,7 @@ $x=1;
                                                         {!! Form::label('radio8', 'Pas concerné') !!}
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;">
-                                                        {!! Form::radio('radio'.$i, 'option8', false, ['id' => 'radio8']) !!}
+                                                        {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
                                                     </div>
                                                 </div>
                                             </div>

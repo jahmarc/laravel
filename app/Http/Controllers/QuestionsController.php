@@ -40,8 +40,9 @@ class QuestionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \IU\PHPCap\PhpCapException
      */
     public function store(Request $request)
     {
@@ -49,7 +50,27 @@ class QuestionsController extends Controller
 
         $input = $request->all();
 
-        print_r($input);
+        $input['record_id'] = $input['_token'];
+        unset($input['_token']);
+        $input['survey_complete']='2';
+
+        $test = '['.json_encode($input).']';
+
+        print_r($test);
+        $apiUrl = 'https://redcap.hes-so.ch/api/';  # replace this URL with your institution's # REDCap API URL.
+
+        $apiToken = '607F2068FA415C0FA16FEC713AABAE66';    # replace with your actual API token
+
+        try {
+            $project = new RedCapProject($apiUrl, $apiToken);
+        } catch (\Exception $e) {
+            echo($e->getMessage());
+        }
+
+        $result = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'count');
+
+        print_r('Success');
+        print_r($result);
 
 
     }
