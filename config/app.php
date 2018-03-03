@@ -228,6 +228,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'api_token' => '607F2068FA415C0FA16FEC713AABAE66',
+        'api_url' => 'https://redcap.hes-so.ch/api/',
 
     ],
 

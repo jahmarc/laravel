@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use IU\PHPCap\RedCapProject;
 
@@ -57,9 +58,10 @@ class QuestionsController extends Controller
         $test = '['.json_encode($input).']';
 
         print_r($test);
-        $apiUrl = 'https://redcap.hes-so.ch/api/';  # replace this URL with your institution's # REDCap API URL.
+        
+        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
-        $apiToken = '607F2068FA415C0FA16FEC713AABAE66';    # replace with your actual API token
+        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
@@ -122,9 +124,9 @@ class QuestionsController extends Controller
 
     public function category($id){
 
-        $apiUrl = 'https://redcap.hes-so.ch/api/';  # replace this URL with your institution's # REDCap API URL.
+        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
-        $apiToken = '607F2068FA415C0FA16FEC713AABAE66';    # replace with your actual API token
+        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
