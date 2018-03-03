@@ -58,7 +58,7 @@ class QuestionsController extends Controller
         $test = '['.json_encode($input).']';
 
         print_r($test);
-        
+
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
