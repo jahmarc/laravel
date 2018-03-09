@@ -11,9 +11,7 @@ $x=1;
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-auto">
-                <br/>
-                <br/>
-                <br/>
+
                 <div class="panel panel-default">
 
                         <div class="panel-body">
@@ -102,8 +100,8 @@ $x=1;
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;">
                                                         {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
                                                     </div>
-                                                </div>
-                                            </div>
+                                                </div></hr>
+                                            </div><hr>
                                         </div>
                                     </fieldset>
                                 <?php $i++; ?>
