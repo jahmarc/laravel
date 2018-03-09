@@ -51,6 +51,7 @@ class QuestionsController extends Controller
 
         $input = $request->all();
 
+        print_r($input);
         $input['record_id'] = $input['_token'];
         unset($input['_token']);
         $input['survey_complete']='2';
@@ -154,6 +155,41 @@ class QuestionsController extends Controller
 
 
         return view('survey.category1', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
+
+    }
+
+
+    public function categorysend($id, Request $request){
+
+        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
+
+        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+        try {
+            $project = new RedCapProject($apiUrl, $apiToken);
+        } catch (\Exception $e) {
+            echo($e->getMessage());
+        }
+
+        $projectInfo = $project->exportMetadata();
+
+
+        $str     = str_replace('\u','u',$projectInfo);
+        $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
+
+        $questions = json_decode($strJSON);
+
+
+
+        $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+            'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+
+
+
+
+
+
 
     }
 

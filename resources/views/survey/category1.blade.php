@@ -18,7 +18,7 @@ $x=1;
 
                         <div class="panel-body">
 
-                        {!! Form::open(['action' => 'QuestionsController@store', 'class' => 'form-horizontal' ]) !!}
+                        {!! Form::open(['action' => 'QuestionsController@store', 'class' => 'form-horizontal']) !!}
 
                         <div id="form">
 
@@ -133,7 +133,7 @@ $x=1;
                                     @foreach($categories as $category)
 
 
-                                        <tr><td><a href="../category/<?=$i?>"><?=
+                                        <tr><td><a href="../categorysend/<?=$i?>"><?=
                                                     $category;
                                                     ?></a></td></tr>
                                         <?php $i++;?>

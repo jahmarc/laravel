@@ -23,6 +23,8 @@ Auth::routes();
 
 Route::get('category/{id}', 'QuestionsController@category');
 
+Route::get('categorysend/{id}', 'QuestionsController@categorysend');
+
 Route::resource('questions', 'QuestionsController');
 
 Route::resource('category', 'QuestionsController@category1');
