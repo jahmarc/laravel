@@ -158,7 +158,7 @@ class QuestionsController extends Controller
         //print_r($projectInfo);
 
 
-        return view('survey.category', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
+        return view('survey.category2', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
 
     }
 

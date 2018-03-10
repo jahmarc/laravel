@@ -14,13 +14,13 @@ $x=1;
 
                 <div class="panel panel-default">
 
-                        <div class="panel-body">
+                    <div class="panel-body">
 
                         {!! Form::open(['action' => 'QuestionsController@store', 'class' => 'form-horizontal']) !!}
 
                         <div id="form">
 
-                            <legend>Questionnaire PEPA</legend>
+                            <legend>Questionnaire PEPA - v2</legend>
 
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
@@ -41,8 +41,8 @@ $x=1;
                                                     <div class="radio" style="float: top; align-text:center;" >
                                                         {!! Form::label('radio1', 'Pas du tout') !!}
                                                     </div>
-                                                    <div class="radio" name="radio1" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
-                                                        {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
+                                                    <div class="radio" name="radio1" value="test" style="float: top; width: 100%; margin: 0 auto;text-align: center;">
+                                                        {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']),"Pas du tout" !!}
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -104,24 +104,24 @@ $x=1;
                                             </div>
                                         </div><div style="margin-bottom:45px"><hr style="background-color:white; color:white;    border-top: 1px solid #fff;"></div>
                                     </fieldset>
-                                <?php $i++; ?>
-                            @endif
-                        @endforeach
+                                    <?php $i++; ?>
+                                @endif
+                            @endforeach
                         </div>
 
 
                         <!-- Submit Button -->
-                            <div class="form-group" style="clear: left">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
-                                </div>
+                        <div class="form-group" style="clear: left">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
                             </div>
+                        </div>
 
                         </fieldset>
 
                         {!! Form::close()  !!}
 
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
