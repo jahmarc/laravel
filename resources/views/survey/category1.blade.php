@@ -100,8 +100,8 @@ $x=1;
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;">
                                                         {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
                                                     </div>
-                                                </div></hr>
-                                            </div><hr>
+                                                </div>
+                                            </div>
                                         </div>
                                     </fieldset>
                                 <?php $i++; ?>
