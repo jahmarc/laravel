@@ -166,7 +166,7 @@ class QuestionsController extends Controller
     public function chart(){
 
 
-    print_r('OK');
+      return view('survey.chart');
 
 
 

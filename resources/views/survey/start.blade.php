@@ -29,9 +29,7 @@ $x=1;
                     </div>
                 </div>
                 <div>
-                    <button type="submit" href="{{action('QuestionsController@chart')}}" class="btn btn-primary">
-                        <div>mes résultats</div>
-                    </button>
+                    <a class="btn btn-link" href="{{action('QuestionsController@chart')}}">Mes résultats</a>
                 </div>
             </div>
         </div>
