@@ -2903,7 +2903,8 @@ input[type=search] {
 input[type=checkbox], input[type=radio] {
     margin: 4px 0 0;
     margin-top: 1px \9;
-    line-height: normal
+    line-height: normal;
+
 }
 
 input[type=file] {
@@ -7112,8 +7113,8 @@ button.close {
 
 .hep{
     background-color:red;
-    height: 100px;
-    width: 300px;
+    height: 35px;
+    width: 35px;
     color:red;
 }
 
@@ -7121,7 +7122,7 @@ button.close {
 
 
 input[type='radio'] {
-    width:100px;
+    width:35px;
     height: 30px;
     border-radius: 5px;
     background-color: #d1d3d1;
@@ -7135,10 +7136,10 @@ input[type='radio'] {
 }
 
 input[type='radio']:checked:after {
-    margin-left: -5px;
+    margin-left: 0px;
     margin-top: -3px;
     position: absolute;
-    width: 100px;
+    width: 35px;
     height: 35px;
     border-radius: 25px;
     background-color: #ffa500;
@@ -7150,11 +7151,12 @@ input[type='radio']:checked:after {
 
 
 
-input[name='radio1']{ margin-left: -5px;
+input[name='radio1']{
+    margin-left: -5.5px;
     margin-top: -3px;
     position: absolute;
 
-    width: 100px;
+    width: 35px;
     height: 35px;
     border-radius: 25px;
 
@@ -7172,7 +7174,6 @@ input[name='radio1']{ margin-left: -5px;
 
 #radio1:checked:after{
     background-color: red;
-    width:100px;
 }
 
 #radio2:checked:after{

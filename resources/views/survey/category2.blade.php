@@ -8,6 +8,11 @@ $x=1;
 ?>
 @section('content')
 
+
+
+
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-auto">
@@ -43,6 +48,10 @@ $x=1;
                                                     </div>
                                                     <div class="radio" name="radio1" value="test" style="float: top; width: 100%; margin: 0 auto;text-align: center;">
                                                         {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']),"Pas du tout" !!}
+                                                        {!! Form::button('Pas du tout',['id' => 'radio1'], ['name' => 'q'.$id.'_'.$i],  ['value' =>'0'], ['checked' => false], ['id' => 'radio1']) !!}
+                                                        {!! Form::button('Pas du tout', array('id' => 'radio1', 'name'=>'q'.$id.'_'.$i, 'checked' => false, 'value'=> '0', 'type'=>'radio', 'onclick'=>'anana()')) !!}
+
+
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
@@ -51,6 +60,9 @@ $x=1;
                                                     </div>
                                                     <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
                                                         {!! Form::radio('q'.$id.'_'.$i, '1', false, ['id' => 'radio2']) !!}
+<div></div>
+                                                        {!! Form::button('Pas du tout', array('id' => 'radio2', 'name'=>'q'.$id.'_'.$i, 'checked' => false, 'value'=> '1', 'type'=>'radio', 'onclick'=>'anana()')) !!}
+
                                                     </div>
                                                 </div>
                                                 <div class="radio" style="float:left; clear: top; width: 12.5%;text-align: center;">
