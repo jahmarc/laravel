@@ -24,7 +24,14 @@ $x=1;
                                 <?php $i++;?>
                             @endforeach
                         </table>
+                    </br>
+
                     </div>
+                </div>
+                <div>
+                    <button type="submit" href="{{action('QuestionsController@chart')}}" class="btn btn-primary">
+                        <div>mes résultats</div>
+                    </button>
                 </div>
             </div>
         </div>
