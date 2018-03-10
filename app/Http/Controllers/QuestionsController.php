@@ -51,14 +51,14 @@ class QuestionsController extends Controller
 
         $input = $request->all();
 
-        print_r($input);
+        //print_r($input);
         $input['record_id'] = $input['_token'];
         unset($input['_token']);
         $input['survey_complete']='2';
 
         $test = '['.json_encode($input).']';
 
-        print_r($test);
+        //print_r($test);
 
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
@@ -72,8 +72,11 @@ class QuestionsController extends Controller
 
         $result = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'count');
 
-        print_r('Success');
-        print_r($result);
+        $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+            'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+
+        return view('survey.start', array(\Auth::user(), 'categories' => $categories));
 
 
     }
@@ -154,7 +157,7 @@ class QuestionsController extends Controller
         //print_r($projectInfo);
 
 
-        return view('survey.category1', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
+        return view('survey.category', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
 
     }
 

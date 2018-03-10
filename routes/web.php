@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'QuestionsController@index')->name('home');
 
 Auth::routes();
 
@@ -27,7 +27,7 @@ Route::get('categorysend/{id}', 'QuestionsController@categorysend');
 
 Route::resource('questions', 'QuestionsController');
 
-Route::resource('category', 'QuestionsController@category1');
+Route::resource('category', 'QuestionsController@category');
 
 Route::post('form-submit', array('before'=>'csrf',function(){
     //form validation come here

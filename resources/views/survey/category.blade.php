@@ -113,7 +113,7 @@ $x=1;
                         <!-- Submit Button -->
                             <div class="form-group" style="clear: left">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    {!! Form::submit('Envoyer tout', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
+                                    {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
                                 </div>
                             </div>
 
@@ -123,24 +123,6 @@ $x=1;
 
                 </div>
                 </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Table des matières</div>
-                            <div class="panel-body">
-                                <table class="table">
-                                    <?php $i=1; ?>
-                                    @foreach($categories as $category)
-
-
-                                        <tr><td><a href="../categorysend/<?=$i?>"><?=
-                                                    $category;
-                                                    ?></a></td></tr>
-                                        <?php $i++;?>
-                                    @endforeach
-                                </table>
-                            </div>
-                        </div>
-
-
             </div>
         </div>
     </div>
