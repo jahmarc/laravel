@@ -24,8 +24,11 @@ $x=1;
                                 <?php $i++;?>
                             @endforeach
                         </table>
-                    </br>
+                        </br>
 
+                    </div>
+                    <div>
+                        <a class="btn btn-link" href="./chart/<?=$id?>">Mes résultats</a>
                     </div>
                 </div>
             </div>

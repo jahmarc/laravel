@@ -21,7 +21,7 @@ Route::get('/home', 'QuestionsController@index')->name('home');
 
 Auth::routes();
 
-Route::get('chart', 'QuestionsController@chart');
+Route::get('chart/{id}', 'QuestionsController@chart');
 
 Route::get('category/{id}', 'QuestionsController@category');
 

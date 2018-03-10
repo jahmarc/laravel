@@ -22,6 +22,9 @@ $x=1;
 
                             <legend>Questionnaire PEPA</legend>
 
+                            {!! Form::hidden('id',1) !!}
+
+
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
 
