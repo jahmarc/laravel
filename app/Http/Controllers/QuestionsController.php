@@ -56,9 +56,9 @@ class QuestionsController extends Controller
         unset($input['_token']);
         $input['survey_complete']='2';
 
-        $test = '['.json_encode($input).']';
 
-        //print_r($test);
+         $test = '['.json_encode($input).']';
+
 
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
@@ -66,17 +66,18 @@ class QuestionsController extends Controller
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
+
+            $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
+
+            $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+                'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+            return view('survey.start', array(\Auth::user(), 'categories' => $categories));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
 
-        $result = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'count');
 
-        $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
-            'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
-
-        return view('survey.start', array(\Auth::user(), 'categories' => $categories));
 
 
     }
