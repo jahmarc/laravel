@@ -41,7 +41,7 @@ $x=1;
                                                     <div class="radio" style="float: top; align-text:center;" >
                                                         {!! Form::label('radio1', 'Pas du tout') !!}
                                                     </div>
-                                                    <div class="radio" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
+                                                    <div class="radio" name="radio1" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
                                                         {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
                                                     </div>
                                                 </div>
@@ -102,7 +102,7 @@ $x=1;
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div><div style="margin-bottom:35px"><hr style="background-color:white "></div>
                                     </fieldset>
                                 <?php $i++; ?>
                             @endif

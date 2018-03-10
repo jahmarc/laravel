@@ -149,6 +149,8 @@ input[type=checkbox], input[type=radio] {
     padding: 0;
     width: 75%;
     height: 75%;
+
+
 }
 
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
@@ -3027,7 +3029,7 @@ input[type=search] {
 
 .checkbox-inline input[type=checkbox], .checkbox input[type=checkbox], .radio-inline input[type=radio], .radio input[type=radio] {
     position: absolute;
-    margin-left: -20px;
+    /*margin-left: -20px;*/
     margin-top: 4px \9
 }
 
@@ -7113,4 +7115,92 @@ button.close {
     height: 100px;
     width: 300px;
     color:red;
+}
+
+
+
+
+input[type='radio'] {
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+    margin-left: auto;
+    position: absolute;
+    margin-bottom: 10px;
+}
+
+input[type='radio']:checked:after {
+    margin-left: -5px;
+    margin-top: -3px;
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+    background-color: #ffa500;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    margin-bottom: 10px;
+}
+
+
+
+input[name='radio1']{ margin-left: -5px;
+    margin-top: -3px;
+    position: absolute;
+
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+
+
+    background-color: red;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+#radio1:checked:after{
+    background-color: red;
+}
+
+#radio2:checked:after{
+     background-color: #ff7c00;
+ }
+
+#radio3:checked:after{
+    background-color: #ffd900;
+}
+
+#radio4:checked:after{
+    background-color:yellow ;
+}
+
+#radio5:checked:after{
+    background-color: #d7ff00;
+}
+
+#radio6:checked:after{
+    background-color: #97ff06;
+}
+
+#radio7:checked:after{
+    background-color: limegreen;
+}
+
+
+#radio8:checked:after{
+    /*background: url(https://res.cloudinary.com/turdlife/image/upload/v1492864443/happy_ampvnc.svg) center;*/
+    background-color: black;
+
 }
