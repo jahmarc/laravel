@@ -7121,9 +7121,9 @@ button.close {
 
 
 input[type='radio'] {
-    width: 30px;
+    width:100px;
     height: 30px;
-    border-radius: 25px;
+    border-radius: 5px;
     background-color: #d1d3d1;
     content: '';
     display: inline-block;
@@ -7138,7 +7138,7 @@ input[type='radio']:checked:after {
     margin-left: -5px;
     margin-top: -3px;
     position: absolute;
-    width: 35px;
+    width: 100px;
     height: 35px;
     border-radius: 25px;
     background-color: #ffa500;
@@ -7154,7 +7154,7 @@ input[name='radio1']{ margin-left: -5px;
     margin-top: -3px;
     position: absolute;
 
-    width: 35px;
+    width: 100px;
     height: 35px;
     border-radius: 25px;
 
@@ -7172,6 +7172,7 @@ input[name='radio1']{ margin-left: -5px;
 
 #radio1:checked:after{
     background-color: red;
+    width:100px;
 }
 
 #radio2:checked:after{
