@@ -127,14 +127,23 @@
                     <?php  echo $arrayCategoriesName[$i];?>
                 </td>
                 <td style="padding: 5px">
-                    <b><?php echo $arrayAverage[$i];?></b>
+                    <b>
+                        <?php
+                        if ($arrayAverage[$i]!=null){
+                        echo $arrayAverage[$i];
+                        }
+                        else{
+                            echo 0;
+                        }
+                        ?>
+                    </b>
                 </td>
             </tr>
 
             <?php  } ?>
             <tr>
                 <td>
-                    <form action="start_survey.php">
+                    <form action="../home">
                         <input type="submit" class="btn btn-info"  value="Recommencer">
                     </form>
 
