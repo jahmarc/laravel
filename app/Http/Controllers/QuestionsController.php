@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use IU\PHPCap\RedCapProject;
@@ -69,6 +71,7 @@ class QuestionsController extends Controller
 
         $input['record_id'] = $input['_token'];
         $input['avg'.$idChapter] = $average;
+        $input['iduser'] = Auth::id();
         unset($input['_token']);
         unset($input['id']);
         $input['survey_complete']='2';
@@ -83,6 +86,7 @@ class QuestionsController extends Controller
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
+
 
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
 
