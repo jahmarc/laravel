@@ -20,9 +20,17 @@ $x=1;
 
                         <div id="form">
 
-                            <legend>Questionnaire PEPA</legend>
+                            <legend><?= $categories[$id]; ?></legend>
 
-                            {!! Form::hidden('id',1) !!}
+
+
+                                    {!! Form::hidden('id',1) !!}
+
+
+
+                            <p></p>
+
+
 
 
                         @foreach($questions as $question)
@@ -31,17 +39,19 @@ $x=1;
 
                                 <!-- Text Area -->
                                     <div class="form-group">
-                                        <div class="col-lg-offset-9">
+                                        <div class="col-lg-offset-9"  style="margin-top: 2%;">
                                             {!! Form::label('question', $question->field_label, ['class' => '']) !!}
                                         </div>
                                     </div>
 
-                                    <fieldset id="group<?= $i?>">
+                                    <fieldset id="group<?= $i?>" style="border-bottom-color: #e4e4e4;
+    border-bottom-width: 0.5px;
+    border-bottom-style: solid;">
                                         <!-- Radio Buttons -->
-                                        <div class="form-group">
-                                            <div class="col-lg-auto">
+                                        <div class="form-group";>
+                                            <div class="col-lg-auto" >
                                                 <div class="radio" style="float:left; width: 12.5%; text-align: center; ">
-                                                    <div class="radio" style="float: top; align-text:center;" >
+                                                    <div class="radio" style="float: top; align-text:center;; " >
                                                         {!! Form::label('radio1', '0 - Pas du tout') !!}
                                                     </div>
                                                     <div class="radio" name="radio1" style="float: top; width: 50%; margin: 0 auto;text-align: center;">
