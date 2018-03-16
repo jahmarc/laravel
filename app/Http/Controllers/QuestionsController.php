@@ -193,15 +193,104 @@ class QuestionsController extends Controller
             echo($e->getMessage());
         }
 
-        $projectInfo = $project->exportMetadata();
+        $recordIds = [$id];
+        $records = $project->exportRecords('json', 'flat', $recordIds);
 
-        $str     = str_replace('\u','u',$projectInfo);
+        $str     = str_replace('\u','u',$records);
         $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
 
-        $questions = json_decode($strJSON);
+        $datas = json_decode($strJSON);
 
 
-      return view('survey.chart');
+        $size = sizeof($datas);
+
+
+
+        if(property_exists($datas[0],'avg1')) {
+            $avg1 = $datas[0]->avg1;
+        }
+        else{
+            $avg1 =0;
+        }
+
+        if(property_exists($datas[0],'avg2')) {
+            $avg2 = $datas[0]->avg2;
+        }
+        else{
+            $avg2 =0;
+        }
+        if(property_exists($datas[0],'avg3')) {
+            $avg3 = $datas[0]->avg3;
+        }
+        else{
+            $avg3 =0;
+        }
+        if(property_exists($datas[0],'avg4')) {
+            $avg4 = $datas[0]->avg4;
+        }
+        else{
+            $avg4 =0;
+        }
+        if(property_exists($datas[0],'avg5')) {
+            $avg5 = $datas[0]->avg5;
+        }
+        else{
+            $avg5 =0;
+        }
+        if(property_exists($datas[0],'avg6')) {
+            $avg6 = $datas[0]->avg6;
+        }
+        else{
+            $avg6 =0;
+        }
+        if(property_exists($datas[0],'avg7')) {
+            $avg7 = $datas[0]->avg7;
+        }
+        else{
+            $avg7 =0;
+        }
+        if(property_exists($datas[0],'avg8')) {
+            $avg8 = $datas[0]->avg8;
+        }
+        else{
+            $avg8 =0;
+        }
+        if(property_exists($datas[0],'avg9')) {
+            $avg9 = $datas[0]->avg9;
+        }
+        else{
+            $avg9 =0;
+        }
+        if(property_exists($datas[0],'avg10')) {
+            $avg10 = $datas[0]->avg10;
+        }
+        else{
+            $avg10 =0;
+        }
+        if(property_exists($datas[0],'avg11')) {
+            $avg11 = $datas[0]->avg11;
+        }
+        else{
+            $avg11 =0;
+        }
+
+
+
+
+        $averages = array($avg1,$avg2,$avg3,$avg4,$avg5,$avg6,$avg7,$avg8,$avg9,$avg10,$avg11);
+
+
+
+
+
+        $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+            'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+
+
+
+
+        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories));
 
 
 
