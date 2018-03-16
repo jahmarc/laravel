@@ -20,18 +20,9 @@ $x=1;
 
                         <div id="form">
 
-                            <legend><?= $categories[$id]; ?></legend>
+                            <legend style="color:#0058ff;"><?= $categories[$id-1]; ?></legend>
 
-
-
-                                    {!! Form::hidden('id',1) !!}
-
-
-
-                            <p></p>
-
-
-
+                            {!! Form::hidden('id',1) !!}
 
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
