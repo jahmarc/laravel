@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Vous êtes connectés !
                         <br/>
                         <div class="links">
                             <a href="{{ route('questions.index') }}">Commencer le test</a>
