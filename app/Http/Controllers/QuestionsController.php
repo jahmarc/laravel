@@ -19,11 +19,14 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        //
+
+        //Array of category names to display it in the resume table
 
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
+
+        //Return view of summary table with categories array and User Authentificated
 
         return view('survey.start', array(\Auth::user(), 'categories' => $categories));
 
@@ -47,10 +50,13 @@ class QuestionsController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \IU\PHPCap\PhpCapException
      */
+
+
+
     public function store(Request $request)
     {
-        //
 
+        //
         $input = $request->all();
 
         $idChapter = $input['id'];
@@ -291,11 +297,26 @@ class QuestionsController extends Controller
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
+        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
+
+        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+        try {
+            $project = new RedCapProject($apiUrl, $apiToken);
+        } catch (\Exception $e) {
+            echo($e->getMessage());
+        }
+
+        $associationsInfo = $project->exportMetadataAss();
 
 
+        $str     = str_replace('\u','u',$associationsInfo);
+        $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
+
+        $associations = json_decode($strJSON);
 
 
-        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories));
+        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations));
 
 
 

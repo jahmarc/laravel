@@ -102,7 +102,7 @@
                         <h4 class="modal-title">Associations pouvant vous aider</h4>
                     </div>
                     <div class="modal-body" id="mod2">
-
+                        <?= print_r($associations);?>
                     </div>
 
                     <div class="modal-footer">
