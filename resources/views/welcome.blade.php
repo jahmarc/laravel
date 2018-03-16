@@ -79,10 +79,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Projet PEPA
+                    MeetMyNeeds
                 </div>
                 <br/>
-                <div class="title">Le projet qui vous donnera envie de répondre aux sondages</div>
+                <div class="title">Exploration systématique des besoins des proches aidants</div>
             </div>
         </div>
     </body>
