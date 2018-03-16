@@ -22,7 +22,7 @@ $x=1;
 
                             <legend style="color:#0058ff;"><?= $categories[$id-1]; ?></legend>
 
-                            {!! Form::hidden('id',1) !!}
+                            {!! Form::hidden('id',$id) !!}
 
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
