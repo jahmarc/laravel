@@ -20,7 +20,7 @@ $x=1;
 
                         <div id="form">
 
-                            <legend style="color:#0058ff;"><?= $categories[$id-1]; ?></legend>
+                            <legend style="color:#0058ff; "><?= $id.')   '.$categories[$id-1]; ?></legend>
 
                             {!! Form::hidden('id',$id) !!}
 
@@ -35,9 +35,7 @@ $x=1;
                                         </div>
                                     </div>
 
-                                    <fieldset id="group<?= $i?>" style="border-bottom-color: #e4e4e4;
-    border-bottom-width: 0.5px;
-    border-bottom-style: solid;">
+                                    <fieldset id="group<?= $i?>" style="border-bottom-color: #e4e4e4;border-bottom-width: 0.5px;border-bottom-style: solid;">
                                         <!-- Radio Buttons -->
                                         <div class="form-group";>
                                             <div class="col-lg-auto" >
@@ -115,7 +113,7 @@ $x=1;
 
 
                         <!-- Submit Button -->
-                            <div class="form-group" style="clear: left">
+                            <div class="form-group" style="clear: left; margin-top:40px;">
                                 <div class="col-lg-10 col-lg-offset-2">
                                     {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
                                 </div>

@@ -19,7 +19,7 @@ $x=1;
 
 
                                 <tr><td><a href="./category/<?=$i?>"><?=
-                                            $category;
+                                            $i.')   '.$category;
                                             ?></a></td></tr>
                                 <?php $i++;?>
                             @endforeach

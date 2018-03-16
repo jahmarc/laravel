@@ -19,16 +19,15 @@ $x=1;
 
 
                                 <tr><td><a href="./category/<?=$i?>"><?=
-                                            $category;
+                                            $i.')   '.$category;
                                             ?></a></td></tr>
                                 <?php $i++;?>
                             @endforeach
                         </table>
-                        </br>
 
                     </div>
                     <div>
-                        <a class="btn btn-link" href="./chart/<?=$id?>">Mes résultats</a>
+                        <input class="btn btn-lg btn-success pull-right"  style="margin:20px;" onclick="window.location='./chart/<?=$id?>'" value="Mes résultats">
                     </div>
                 </div>
             </div>
