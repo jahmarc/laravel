@@ -6,6 +6,7 @@
 		$arrayAverage = $averages;
 		$numberOfCategories  = count($arrayAverage, null);
 		$arrayCategoriesName = $categories;
+        $arrayAssociations = $associations;
 
 
 
@@ -82,27 +83,67 @@
             ?>
             <tr style="height: 60px; ">
                 <td>
-                    <form action="give_categorie.php" method="post">
-                        <input type="hidden" name="numAssoc"  value = <?php echo $i;?>>
-                        <button type="button" class="btn btn-success btn-md"  data-toggle = "modal" data-target="#myModal" data-num-cat= <?php echo $i;?>>Aide</button>
+                    <form action="QuestionsController@association" method="post">
+                        <input  type="hidden" name="numAssoc"  value = <?php echo $i;?>>
+                        <button type="button" class="btn btn-success btn-md"  data-toggle = "modal" data-target=<?php echo '#myModal'.$i?> data-num-cat= <?php echo $i;?>>Aide</button>
                         <!-- <input type="submit" class="btn btn-info btn-md" value="Aide"> -->
                     </form>
                 </td>
             </tr>
+
+
             <?php }?>
         </table>
 
         <br>
         <!-- Modale -->
-        <div id="myModal" class="modal fade" role="dialog" >
+
+        <?php for($k=0;$k<$numberOfCategories;$k++){
+        ?>
+        <div id=<?php echo 'myModal'.$k?> class="modal fade" role="dialog" >
             <div class="modal-dialog" >
                 <div class="modal-content" style ="background-color: #FFE699; ">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Associations pouvant vous aider</h4>
                     </div>
-                    <div class="modal-body" id="mod2">
-                        <?= print_r($associations);?>
+                    <div class="modal-body" id=<?php echo 'mod'.$k?>>
+                        <?php
+
+                        $numCategories = $k;
+
+
+                        $numCategories+=1; //Because Category 0 don't exist
+                        $arrayInfosAssociation = [];
+                        $j = 0;
+
+                        $b = 1;
+
+                        $positionOfAssociation = findAssociation($arrayAssociations, $numCategories);
+
+                        $sizeOfArray = (count($arrayAssociations) - 1);
+
+                        while ($b == 1) {
+                            /*Get all value for category chosen
+                              "section header contain the number of category in data from REDCap. If "section_header" is empty, that mean
+                              we don^t change category*/
+
+                            if ($arrayAssociations[$positionOfAssociation]->section_header == $numCategories || $arrayAssociations[$positionOfAssociation]->section_header == '') {
+
+                                $arrayInfosAssociation[$j] = $arrayAssociations[$positionOfAssociation]->field_label;
+                                $positionOfAssociation += 1;
+                                $j += 1;
+                            } else {
+                                $b = 0;
+                            }
+                            if ($positionOfAssociation > $sizeOfArray) {
+                                $b = 0;
+                            }
+                        }
+
+                        displayInfos($arrayInfosAssociation);
+
+                        ?>
                     </div>
 
                     <div class="modal-footer">
@@ -111,6 +152,7 @@
                 </div>
             </div>
         </div>
+    <?php }?>
 
         <!-- Table to display number result, to compare with statistic. It was put in comment,
         could be useful to develop for the future -->
@@ -157,143 +199,204 @@
     <br>
 
     </body>
-    <!-- When button is clicked -->
-    <script type="text/javascript">
-        $('#myModal').on('show.bs.modal', function(e){
-
-            var catId = $(e.relatedTarget).data('num-cat');
-
-            $('#mod2').load('give_categorie.php',{num: catId});
-
-        });
-    </script>
-
-    <!-- Create statistic with Canvas -->
-    <script type="text/javascript">
-        window.onload = function()
-
-        {
-            var canvas = document.getElementById('my_chart');
-            if(!canvas)
-            {
-                alert("Impossible de récupérer le canvas");
-                return;
-            }
-            var context = canvas.getContext('2d');
-            if(!context)
-            {
-                alert("Impossible de récupérer le context du canvas");
-                return;
-            }
-
-
-            var x = 245;
-            var y = 36
-
-            //Get value from PHP
-            var numCategory = <?php echo $numberOfCategories;?>;
-            var littleLine =0; //To alternate little and big vertical bar
-
-            //Positions
-            var arrayX=[];
-            var arrayY=[];
-
-            //Get averages
-            <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
-
-
-            //Draw horizontal lines
-            for(var i=0;i<numCategory;i++){
-
-                context.beginPath();
-                context.moveTo(245, y);
-                context.lineTo(653, y);
-                context.stroke();
-                context.closePath();
-                //Draw Vertical lines (bar)
-                for(var j=0;j<7;j++){
-                    if(littleLine%2==1){ //Little line
-                        context.beginPath();
-                        context.moveTo(x, y-5);
-                        context.lineTo(x, y+5);
-                        context.stroke();
-                        context.closePath();
-                    }
-                    else{ //big line
-                        context.beginPath();
-                        context.moveTo(x, y-8);
-                        context.lineTo(x, y+8);
-                        context.stroke();
-                        context.closePath();
-
-                    }
-                    littleLine++;
-                    x+=68; //To go 68 pixels on right for next vertical line
-                }
-
-                /*Red Points
-                compute coordinate X Y to draw red point, related to average*/
-                if(arrayValues[i]<=1){
-                    x=653-(68*6);
-                }
-
-                if(arrayValues[i]>1 && arrayValues[i]<=2){
-                    x=653-(68*5);
-                }
-
-                if(arrayValues[i]>2 && arrayValues[i]<=3){
-                    x=653-(68*4);
-                }
-
-                if(arrayValues[i]>3 && arrayValues[i]<=4){
-                    x=653-(68*3);
-                }
-
-                if(arrayValues[i]>4 && arrayValues[i]<=5){
-                    x=653-(68*2);
-                }
-                if(arrayValues[i]>5 && arrayValues[i]<=6){
-                    x=653-68;
-                }
-
-                if(arrayValues[i]>6 && arrayValues[i]<=7){
-                    x=653;
-                }
-                // Draw red point
-                context.beginPath();
-                context.fillStyle = "#b32400";
-                context.arc(x, y, 5, 0, Math.PI*2);
-                context.fill();
-                context.closePath();
-
-                /*Keep coordonate of actual red point in an array
-                used after to draw line between points*/
-                arrayX.push(x);
-                arrayY.push(y);
-                littleLine =0;
-                x=245;
-                y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
-
-            }
-
-            //Draw line between points
-
-            for(var i=0;i<numCategory-1;i++){
-
-                context.beginPath();
-                context.strokeStyle = "#b32400";
-                context.lineWidth = 2;
-                context.moveTo(arrayX[i+1], arrayY[i+1]);
-                context.lineTo(arrayX[i], arrayY[i]);
-                context.stroke();
-                context.closePath();
-            }
-
-        }
-    </script>
-
-
-
-
 
 @endsection
+
+
+<!-- Create statistic with Canvas -->
+<script type="text/javascript">
+window.onload = function()
+
+{
+    var canvas = document.getElementById('my_chart');
+    if(!canvas)
+    {
+        alert("Impossible de récupérer le canvas");
+        return;
+    }
+    var context = canvas.getContext('2d');
+    if(!context)
+    {
+        alert("Impossible de récupérer le context du canvas");
+        return;
+    }
+
+
+    var x = 245;
+    var y = 36
+
+    //Get value from PHP
+    var numCategory = <?php echo $numberOfCategories;?>;
+    var littleLine =0; //To alternate little and big vertical bar
+
+    //Positions
+    var arrayX=[];
+    var arrayY=[];
+
+    //Get averages
+    <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
+
+
+    //Draw horizontal lines
+    for(var i=0;i<numCategory;i++){
+
+        context.beginPath();
+        context.moveTo(245, y);
+        context.lineTo(653, y);
+        context.stroke();
+        context.closePath();
+        //Draw Vertical lines (bar)
+        for(var j=0;j<7;j++){
+            if(littleLine%2==1){ //Little line
+                context.beginPath();
+                context.moveTo(x, y-5);
+                context.lineTo(x, y+5);
+                context.stroke();
+                context.closePath();
+            }
+            else{ //big line
+                context.beginPath();
+                context.moveTo(x, y-8);
+                context.lineTo(x, y+8);
+                context.stroke();
+                context.closePath();
+
+            }
+            littleLine++;
+            x+=68; //To go 68 pixels on right for next vertical line
+        }
+
+        /*Red Points
+        compute coordinate X Y to draw red point, related to average*/
+        if(arrayValues[i]<=1){
+            x=653-(68*6);
+        }
+
+        if(arrayValues[i]>1 && arrayValues[i]<=2){
+            x=653-(68*5);
+        }
+
+        if(arrayValues[i]>2 && arrayValues[i]<=3){
+            x=653-(68*4);
+        }
+
+        if(arrayValues[i]>3 && arrayValues[i]<=4){
+            x=653-(68*3);
+        }
+
+        if(arrayValues[i]>4 && arrayValues[i]<=5){
+            x=653-(68*2);
+        }
+        if(arrayValues[i]>5 && arrayValues[i]<=6){
+            x=653-68;
+        }
+
+        if(arrayValues[i]>6 && arrayValues[i]<=7){
+            x=653;
+        }
+        // Draw red point
+        context.beginPath();
+        context.fillStyle = "#b32400";
+        context.arc(x, y, 5, 0, Math.PI*2);
+        context.fill();
+        context.closePath();
+
+        /*Keep coordonate of actual red point in an array
+        used after to draw line between points*/
+        arrayX.push(x);
+        arrayY.push(y);
+        littleLine =0;
+        x=245;
+        y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
+
+    }
+
+    //Draw line between points
+
+    for(var i=0;i<numCategory-1;i++){
+
+        context.beginPath();
+        context.strokeStyle = "#b32400";
+        context.lineWidth = 2;
+        context.moveTo(arrayX[i+1], arrayY[i+1]);
+        context.lineTo(arrayX[i], arrayY[i]);
+        context.stroke();
+        context.closePath();
+    }
+
+}
+</script>
+
+<?php
+
+//Find good association related to clicked button
+function findAssociation($array, $num)
+{
+    $i = 0;
+    $num = strval($num);
+
+    //Fin category in array from REDCap
+    foreach ($array as $element) {
+        if ($element->section_header == $num) {
+            return $i;
+        }
+        $i++;
+    }
+}
+
+//Display infos in the modal
+function displayInfos($array)
+{
+    $title;
+    $infos;
+
+    $nextHyphenPos;
+    $end;
+
+    foreach ($array as $element) {
+
+        //Get title (Text before ":")
+        $title = substr($element, 0, strpos($element, ':'));
+        //Variables to display info for each category
+        $sizeString = strlen($element);
+        $b = 1;
+        $arrayTemp = [];
+        $i = 0;
+        $end = true;
+
+        //Seach first "*"
+        $nextHyphenPos = strpos($element, '*');
+        //Get String since "*"
+        $element = substr($element, $nextHyphenPos + 1);
+        while ($end !== false) {
+
+
+            //Seach next "*"
+            $end = strpos($element, '*', 0);
+            if ($end !== false) {
+                $arrayTemp[$i] = substr($element, 0, $end);
+                $i++;
+            } else {
+                $arrayTemp[$i] = $element;
+            }
+            $nextHyphenPos = strpos($element, '*', 1);
+
+            //Get String since "*"
+            $element = substr($element, $nextHyphenPos + 1);
+
+        }
+        //Display in modal
+        echo '<b>' . $title . ':</b> <br>';
+        echo '<ul>';
+        for ($j = 0; $j < count($arrayTemp); $j++) {
+            echo '<li>' . $arrayTemp[$j] . '</li>';
+        }
+        echo '</ul> <br>';
+
+    }
+
+}
+?>
+
+
+

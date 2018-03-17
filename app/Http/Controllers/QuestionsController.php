@@ -307,6 +307,7 @@ class QuestionsController extends Controller
             echo($e->getMessage());
         }
 
+
         $associationsInfo = $project->exportMetadataAss();
 
 
@@ -321,6 +322,7 @@ class QuestionsController extends Controller
 
 
     }
+
 
 
 }

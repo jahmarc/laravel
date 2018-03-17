@@ -29,6 +29,8 @@ Route::get('categorysend/{id}', 'QuestionsController@categorysend');
 
 Route::resource('questions', 'QuestionsController');
 
+Route::resource('associations', 'give_categorie');
+
 Route::resource('category', 'QuestionsController@category');
 
 Route::post('form-submit', array('before'=>'csrf',function(){
