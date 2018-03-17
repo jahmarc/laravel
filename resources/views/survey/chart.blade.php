@@ -31,8 +31,8 @@
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
                 <td >
-                    <img  src="Images/bad.png" height="18px" width="18px" align="right" >
-                    <img  src="Images/good.png" height="18px" width="18px" align="left">
+                    <img  src=<?php echo public_path().'\Images\bad.png'?> height="18px" width="18px" align="right" >
+                    <img  src=<?php echo public_path().'\Images\good.png'?> height="18px" width="18px" align="left">
                 </td>
                 <!-- Right -->
                 <td style="width:100px;">
@@ -46,8 +46,8 @@
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b> </td>
                 <!-- Center -->
                 <td>
-                    <img  src="Images/bad.png" height="18px" width="18px" align="right">
-                    <img  src="Images/good.png" height="18px" width="18px" align="left">
+                    <img  src=<?php echo public_path().'\Images\bad.png'?> height="18px" width="18px" align="right">
+                    <img  src=<?php echo public_path().'\Images\good.png'?> height="18px" width="18px" align="left">
                 </td>
                 <!-- Right -->
                 <td style="width:100px;">
@@ -61,8 +61,8 @@
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
                 <td>
-                    <img  src="Images/bad.png" height="18px" width="18px" align="right">
-                    <img  src="Images/good.png" height="18px" width="18px" align="left">
+                    <img  src=<?php echo public_path().'\Images\bad.png'?> height="18px" width="18px" align="right">
+                    <img  src=<?php echo public_path().'\Images\bad.png'?> height="18px" width="18px" align="left">
                 </td>
                 <!-- Right -->
                 <td style="width:100px; ">
