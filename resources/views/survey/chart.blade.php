@@ -9,6 +9,9 @@
         $arrayAssociations = $associations;
 
 
+        print_r($bool);
+
+
 
 	?>
 @section('content')

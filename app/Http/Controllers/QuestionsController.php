@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use IU\PHPCap\RedCapProject;
+use function Sodium\add;
 
 class QuestionsController extends Controller
 {
@@ -67,6 +68,8 @@ class QuestionsController extends Controller
 
         $average = 0;
         $sum = 0;
+
+        $input['category'.$idChapter.'bool'] = 1;
 
         for($i = 2; $i<$size; $i++){
             $sum += $values[$i];
@@ -217,73 +220,101 @@ class QuestionsController extends Controller
 
 
 
+        $bool =array();
+
         if(property_exists($datas[0],'avg1')) {
             $avg1 = $datas[0]->avg1;
+            $bool[1] = $datas[0]->category1bool;
+
         }
         else{
             $avg1 =0;
+            $bool[1] = $datas[0]->category1bool;
         }
 
         if(property_exists($datas[0],'avg2')) {
             $avg2 = $datas[0]->avg2;
+            $bool[2] = $datas[0]->category2bool;
         }
         else{
             $avg2 =0;
+            $bool[2] = $datas[0]->category2bool;
         }
         if(property_exists($datas[0],'avg3')) {
             $avg3 = $datas[0]->avg3;
+            $bool[3] = $datas[0]->category3bool;
         }
         else{
             $avg3 =0;
+            $bool[3] = $datas[0]->category3bool;
         }
         if(property_exists($datas[0],'avg4')) {
             $avg4 = $datas[0]->avg4;
+            $bool[4] = $datas[0]->category4bool;
         }
         else{
             $avg4 =0;
+            $bool[4] = $datas[0]->category4bool;
         }
         if(property_exists($datas[0],'avg5')) {
             $avg5 = $datas[0]->avg5;
+            $bool[5] = $datas[0]->category5bool;
         }
         else{
             $avg5 =0;
+            $bool[5] = $datas[0]->category5bool;
         }
         if(property_exists($datas[0],'avg6')) {
             $avg6 = $datas[0]->avg6;
+            $bool[6] = $datas[0]->category6bool;
         }
         else{
             $avg6 =0;
+            $bool[6] = $datas[0]->category6bool;
         }
         if(property_exists($datas[0],'avg7')) {
             $avg7 = $datas[0]->avg7;
+            $bool[7] = $datas[0]->category7bool;
         }
         else{
             $avg7 =0;
+            $bool[7] = $datas[0]->category7bool;
         }
         if(property_exists($datas[0],'avg8')) {
             $avg8 = $datas[0]->avg8;
+            $bool[8] = $datas[0]->category8bool;
         }
         else{
             $avg8 =0;
+            $bool[8] = $datas[0]->category8bool;
         }
         if(property_exists($datas[0],'avg9')) {
             $avg9 = $datas[0]->avg9;
+            $bool[9] = $datas[0]->category9bool;
         }
         else{
             $avg9 =0;
+            $bool[9] = $datas[0]->category9bool;
         }
         if(property_exists($datas[0],'avg10')) {
             $avg10 = $datas[0]->avg10;
+            $bool[10] = $datas[0]->category10bool;
         }
         else{
             $avg10 =0;
+            $bool[10] = $datas[0]->category10bool;
         }
         if(property_exists($datas[0],'avg11')) {
             $avg11 = $datas[0]->avg11;
+            $bool[11] = $datas[0]->category11bool;
         }
         else{
             $avg11 =0;
+            $bool[11] = $datas[0]->category11bool;
         }
+
+
+
 
 
 
@@ -317,7 +348,7 @@ class QuestionsController extends Controller
         $associations = json_decode($strJSON);
 
 
-        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations));
+        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
 
 
 
