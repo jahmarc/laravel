@@ -96,7 +96,6 @@ class QuestionsController extends Controller
 
         for($j=1;$j<$idQuestion;$j++){
             if(isset($input['q'.$idChapter.'_'.$j])){
-                echo $input['q'.$idChapter.'_'.$j];
             }else{
                 $isEmpty = true;
             }
