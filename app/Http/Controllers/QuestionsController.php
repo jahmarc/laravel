@@ -61,6 +61,8 @@ class QuestionsController extends Controller
         $input = $request->all();
 
         $idChapter = $input['id'];
+        $idQuestion = $input['cptQuestions'];
+        $isEmpty = false;
 
         $size = sizeof($input);
 
@@ -83,15 +85,31 @@ class QuestionsController extends Controller
         $input['iduser'] = Auth::id();
         unset($input['_token']);
         unset($input['id']);
+        unset($input['cptQuestions']);
         $input['survey_complete']='2';
 
-
-         $test = '['.json_encode($input).']';
-
+        $test = '['.json_encode($input).']';
 
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+        for($j=1;$j<$idQuestion;$j++){
+            if(isset($input['q'.$idChapter.'_'.$j])){
+                echo $input['q'.$idChapter.'_'.$j];
+            }else{
+                $isEmpty = true;
+            }
+        }
+        if ($isEmpty == true) {
+            echo '<script language="javascript">';
+            echo 'alert("Le formulaire est imcomplet !")';
+            echo '</script>';
+        }else{
+            echo '<script language="javascript">';
+            echo 'alert("Le formulaire est complètement rempli !")';
+            echo '</script>';
+        }
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
@@ -107,10 +125,6 @@ class QuestionsController extends Controller
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
-
-
-
-
     }
 
     /**
@@ -349,11 +363,6 @@ class QuestionsController extends Controller
 
 
         return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
-
-
-
     }
-
-
 
 }
