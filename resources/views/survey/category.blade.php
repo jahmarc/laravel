@@ -5,6 +5,7 @@
 <?php
 $i=1;
 $x=1;
+$cptQuestions = 0;
 ?>
 @section('content')
 
@@ -106,7 +107,7 @@ $x=1;
                                             </div>
                                         </div><div style="margin-bottom:45px"><hr style="background-color:white; color:white;    border-top: 1px solid #fff;"></div>
                                     </fieldset>
-                                <?php $i++; ?>
+                                <?php $i++; $cptQuestions++?>
                             @endif
                         @endforeach
                         </div>
@@ -116,13 +117,13 @@ $x=1;
                             <div class="form-group" style="clear: left; margin-top:40px;">
                                 <div class="col-lg-10 col-lg-offset-2">
                                     {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
+                                    {!! Form::hidden('cptQuestions',$cptQuestions) !!}
                                 </div>
                             </div>
 
                         </fieldset>
 
                         {!! Form::close()  !!}
-
                 </div>
                 </div>
             </div>
