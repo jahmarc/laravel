@@ -196,39 +196,47 @@ print_r($bool);
     </table>
 
     <table style="width:30% ; border:2px solid green; position: relative; top: -2170px; left: 900px">
+
         <tr>
-            <th>Tableau de resultats</th>
+            <th>Legende</th>
         </tr>
-
-        <?php
-        for($i=0;$i<$numberOfCategories;$i++){?>
-        <tr style="border:1px solid green;">
-            <td style="padding: 5px">
-                <?php  echo $arrayCategoriesName[$i];?>
-            </td>
-            <td style="padding: 5px">
-                <b>
-                    <?php
-                    if ($arrayAverage[$i]!=null){
-                        echo $arrayAverage[$i];
-                    }
-                    else{
-                        echo 0;
-                    }
-                    ?>
-                </b>
-            </td>
-        </tr>
-
-        <?php  } ?>
         <tr>
             <td>
-                <form action="../home">
-                    <input type="submit" class="btn btn-info"  value="Recommencer">
-                </form>
-
+                    <svg height="100" width="100">
+                        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#b3ffb3" />
+                        Sorry, your browser does not support inline SVG.
+                    </svg>
             </td>
+            <td>
+                description 1
+            </td>
+
         </tr>
+        <tr>
+            <td>
+                <svg height="100" width="100">
+                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#ffe0b3" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>
+            </td>
+            <td>
+               description 2
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <svg height="100" width="100">
+                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#ffb3b3" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>
+            </td>
+            <td>
+                description 3
+            </td>
+
+        </tr>
+
     </table>
     </div>
 
