@@ -27,6 +27,10 @@ $x=1;
 
                             <legend>Questionnaire PEPA - v2</legend>
 
+                            <div class="form-group">
+                            <title>$category</title>
+                            </div>
+
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
 

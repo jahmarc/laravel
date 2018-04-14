@@ -25,6 +25,10 @@ $cptQuestions = 0;
 
                             {!! Form::hidden('id',$id) !!}
 
+                            <div class="form-group">
+                            <title>$category</title>
+                            </div>
+
                         @foreach($questions as $question)
                             @if($question->matrix_group_name == 'categorie'.$id)
 

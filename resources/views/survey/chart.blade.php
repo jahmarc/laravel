@@ -12,6 +12,11 @@ print_r($bool);
 ?>
 @section('content')
     <div class="container">
+        <div>
+            <form action="../home">
+                <input type="submit"class="btn btn-info"value="Retour">
+            </form>
+        </div>
         <!-- Area where statistic will be draw -->
         <canvas id="my_chart" width="670" height="840" >
             Message pour les navigateurs ne supportant pas encore canvas.
