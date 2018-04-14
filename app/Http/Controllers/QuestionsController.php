@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\History;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,6 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-
         //Array of category names to display it in the resume table
 
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
@@ -30,8 +30,6 @@ class QuestionsController extends Controller
         //Return view of summary table with categories array and User Authentificated
 
         return view('survey.start', array(\Auth::user(), 'categories' => $categories));
-
-
     }
 
     /**
@@ -47,16 +45,11 @@ class QuestionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     * @throws \IU\PHPCap\PhpCapException
      */
-
-
-
     public function store(Request $request)
     {
-
         //
         $input = $request->all();
 
@@ -129,10 +122,10 @@ class QuestionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(History $history)
     {
         //
     }
@@ -140,10 +133,10 @@ class QuestionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(History $history)
     {
         //
     }
@@ -152,10 +145,10 @@ class QuestionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, History $history)
     {
         //
     }
@@ -163,10 +156,10 @@ class QuestionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\History  $history
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(History $history)
     {
         //
     }
@@ -363,5 +356,4 @@ class QuestionsController extends Controller
 
         return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
     }
-
 }
