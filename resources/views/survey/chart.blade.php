@@ -3,17 +3,13 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-		$arrayAverage = $averages;
-		$numberOfCategories  = count($arrayAverage, null);
-		$arrayCategoriesName = $categories;
-        $arrayAssociations = $associations;
-
-
-        print_r($bool);
-
-
-
-	?>
+$arrayAverage = $averages;
+$numberOfCategories  = count($arrayAverage, null);
+$arrayCategoriesName = $categories;
+$arrayAssociations = $associations;
+$isEmpty = 1;
+print_r($bool);
+?>
 @section('content')
     <div class="container">
         <!-- Area where statistic will be draw -->
@@ -24,9 +20,15 @@
         </canvas>
         <!-- Table with three column. Negative value for the top, to superpose the table on canevas -->
         <table style= "position: relative; width:800px; top: -840px ; z-index: -1;" cellspacing="1">
+
+
+
             <?php for($i=0;$i<$numberOfCategories;$i++){
+            if ($bool[$i+1] !=  1)
+                $isEmpty = 0;
 
             ?>
+
             <?php //Alternate 3 colors
             if($arrayAverage[$i]<3){?>
             <tr style="height: 60px; " bgcolor= "#b3ffb3"  >
@@ -75,9 +77,12 @@
             <?php }?>
 
             <?php } //End of "for"?>
+
+
         </table  >
         <!-- buttons -->
     <?php
+
     // Take the the canvas higher and add number of category multiply by 60 (pixels)
     $topPosition = (840+($numberOfCategories*60))*-1;?>
     <!-- Display button on the right -->
@@ -104,97 +109,122 @@
         <?php for($k=0;$k<$numberOfCategories;$k++){
         ?>
         <div id=<?php echo 'myModal'.$k?> class="modal fade" role="dialog" >
-            <div class="modal-dialog" >
-                <div class="modal-content" style ="background-color: #FFE699; ">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Associations pouvant vous aider</h4>
-                    </div>
-                    <div class="modal-body" id=<?php echo 'mod'.$k?>>
-                        <?php
-
-                        $numCategories = $k;
-
-
-                        $numCategories+=1; //Because Category 0 don't exist
-                        $arrayInfosAssociation = [];
-                        $j = 0;
-
-                        $b = 1;
-
-                        $positionOfAssociation = findAssociation($arrayAssociations, $numCategories);
-
-                        $sizeOfArray = (count($arrayAssociations) - 1);
-
-                        while ($b == 1) {
-                            /*Get all value for category chosen
-                              "section header contain the number of category in data from REDCap. If "section_header" is empty, that mean
-                              we don^t change category*/
-
-                            if ($arrayAssociations[$positionOfAssociation]->section_header == $numCategories || $arrayAssociations[$positionOfAssociation]->section_header == '') {
-
-                                $arrayInfosAssociation[$j] = $arrayAssociations[$positionOfAssociation]->field_label;
-                                $positionOfAssociation += 1;
-                                $j += 1;
-                            } else {
-                                $b = 0;
-                            }
-                            if ($positionOfAssociation > $sizeOfArray) {
-                                $b = 0;
-                            }
+        <div class="modal-dialog" >
+            <div class="modal-content" style ="background-color: #FFE699; ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Associations pouvant vous aider</h4>
+                </div>
+                <div class="modal-body" id=<?php echo 'mod'.$k?>>
+                    <?php
+                    $numCategories = $k;
+                    $numCategories+=1; //Because Category 0 don't exist
+                    $arrayInfosAssociation = [];
+                    $j = 0;
+                    $b = 1;
+                    $positionOfAssociation = findAssociation($arrayAssociations, $numCategories);
+                    $sizeOfArray = (count($arrayAssociations) - 1);
+                    while ($b == 1) {
+                        /*Get all value for category chosen
+                          "section header contain the number of category in data from REDCap. If "section_header" is empty, that mean
+                          we don^t change category*/
+                        if ($arrayAssociations[$positionOfAssociation]->section_header == $numCategories || $arrayAssociations[$positionOfAssociation]->section_header == '') {
+                            $arrayInfosAssociation[$j] = $arrayAssociations[$positionOfAssociation]->field_label;
+                            $positionOfAssociation += 1;
+                            $j += 1;
+                        } else {
+                            $b = 0;
                         }
+                        if ($positionOfAssociation > $sizeOfArray) {
+                            $b = 0;
+                        }
+                    }
+                    displayInfos($arrayInfosAssociation);
+                    ?>
+                </div>
 
-                        displayInfos($arrayInfosAssociation);
-
-                        ?>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal"  >Fermer</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal"  >Fermer</button>
                 </div>
             </div>
         </div>
+    </div>
     <?php }?>
 
-        <!-- Table to display number result, to compare with statistic. It was put in comment,
+    <!-- Table to display number result, to compare with statistic. It was put in comment,
         could be useful to develop for the future -->
 
-        <table style="width:30% ; border:2px solid green; position: relative; top: -2100px; left: 900px">
-            <tr>
-                <th>Tableau de resultats</th>
-            </tr>
+    <table style="width:30% ; border:2px solid green; position: relative; top: -2200px; left: 900px">
+        <tr>
+            <th>Tableau de resultats</th>
+        </tr>
 
-            <?php
-            for($i=0;$i<$numberOfCategories;$i++){?>
-            <tr style="border:1px solid green;">
-                <td style="padding: 5px">
-                    <?php  echo $arrayCategoriesName[$i];?>
-                </td>
-                <td style="padding: 5px">
-                    <b>
-                        <?php
-                        if ($arrayAverage[$i]!=null){
+        <?php
+        for($i=0;$i<$numberOfCategories;$i++){?>
+        <tr style="border:1px solid green;">
+            <td style="padding: 5px">
+                <?php  echo $arrayCategoriesName[$i];?>
+            </td>
+            <td style="padding: 5px">
+                <b>
+                    <?php
+                    if ($arrayAverage[$i]!=null){
                         echo $arrayAverage[$i];
-                        }
-                        else{
-                            echo 0;
-                        }
-                        ?>
-                    </b>
-                </td>
-            </tr>
+                    }
+                    else{
+                        echo 0;
+                    }
+                    ?>
+                </b>
+            </td>
+        </tr>
 
-            <?php  } ?>
-            <tr>
-                <td>
-                    <form action="../home">
-                        <input type="submit" class="btn btn-info"  value="Recommencer">
-                    </form>
+        <?php  } ?>
+        <tr>
+            <td>
+                <form action="../home">
+                    <input type="submit" class="btn btn-info"  value="Recommencer">
+                </form>
 
-                </td>
-            </tr>
-        </table>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width:30% ; border:2px solid green; position: relative; top: -2170px; left: 900px">
+        <tr>
+            <th>Tableau de resultats</th>
+        </tr>
+
+        <?php
+        for($i=0;$i<$numberOfCategories;$i++){?>
+        <tr style="border:1px solid green;">
+            <td style="padding: 5px">
+                <?php  echo $arrayCategoriesName[$i];?>
+            </td>
+            <td style="padding: 5px">
+                <b>
+                    <?php
+                    if ($arrayAverage[$i]!=null){
+                        echo $arrayAverage[$i];
+                    }
+                    else{
+                        echo 0;
+                    }
+                    ?>
+                </b>
+            </td>
+        </tr>
+
+        <?php  } ?>
+        <tr>
+            <td>
+                <form action="../home">
+                    <input type="submit" class="btn btn-info"  value="Recommencer">
+                </form>
+
+            </td>
+        </tr>
+    </table>
     </div>
 
     <br>
@@ -205,139 +235,125 @@
 
 @endsection
 
-
 <!-- Create statistic with Canvas -->
 <script type="text/javascript">
-window.onload = function()
-
-{
-    var canvas = document.getElementById('my_chart');
-    if(!canvas)
+    window.onload = function()
     {
-        alert("Impossible de récupérer le canvas");
-        return;
-    }
-    var context = canvas.getContext('2d');
-    if(!context)
-    {
-        alert("Impossible de récupérer le context du canvas");
-        return;
-    }
+        var canvas = document.getElementById('my_chart');
+        if(!canvas)
+        {
+            alert("Impossible de récupérer le canvas");
+            return;
+        }
+        var context = canvas.getContext('2d');
+        if(!context)
+        {
+            alert("Impossible de récupérer le context du canvas");
+            return;
+        }
+        var x = 245;
+        var y = 36
+        //Get value from PHP
+        var numCategory = <?php echo $numberOfCategories;?>;
+        var littleLine =0; //To alternate little and big vertical bar
+        //Positions
+        var arrayX=[];
+        var arrayY=[];
+        var empty =<?php echo $isEmpty;?>;
+        var arrEmpty = <?php echo json_encode($bool); ?>;
 
-
-    var x = 245;
-    var y = 36
-
-    //Get value from PHP
-    var numCategory = <?php echo $numberOfCategories;?>;
-    var littleLine =0; //To alternate little and big vertical bar
-
-    //Positions
-    var arrayX=[];
-    var arrayY=[];
-
-    //Get averages
-    <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
-
-
-    //Draw horizontal lines
-    for(var i=0;i<numCategory;i++){
-
-        context.beginPath();
-        context.moveTo(245, y);
-        context.lineTo(653, y);
-        context.stroke();
-        context.closePath();
-        //Draw Vertical lines (bar)
-        for(var j=0;j<7;j++){
-            if(littleLine%2==1){ //Little line
-                context.beginPath();
-                context.moveTo(x, y-5);
-                context.lineTo(x, y+5);
-                context.stroke();
-                context.closePath();
+        //Get averages
+        <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
+        //Draw horizontal black lines
+        for(var i=0;i<numCategory;i++){
+            context.beginPath();
+            context.moveTo(245, y);
+            context.lineTo(653, y);
+            context.stroke();
+            context.closePath();
+            //Draw Vertical lines (bar)
+            for(var j=0;j<7;j++){
+                if(littleLine%2==1){ //Little line
+                    context.beginPath();
+                    context.moveTo(x, y-5);
+                    context.lineTo(x, y+5);
+                    context.stroke();
+                    context.closePath();
+                }
+                else{ //big line
+                    context.beginPath();
+                    context.moveTo(x, y-8);
+                    context.lineTo(x, y+8);
+                    context.stroke();
+                    context.closePath();
+                }
+                littleLine++;
+                x+=68; //To go 68 pixels on right for next vertical line
             }
-            else{ //big line
-                context.beginPath();
-                context.moveTo(x, y-8);
-                context.lineTo(x, y+8);
-                context.stroke();
-                context.closePath();
-
+            /*Red Points
+            compute coordinate X Y to draw red point, related to average*/
+            if(arrayValues[i]<=1){
+                x=653-(68*6);
             }
-            littleLine++;
-            x+=68; //To go 68 pixels on right for next vertical line
-        }
+            if(arrayValues[i]>1 && arrayValues[i]<=2){
+                x=653-(68*5);
+            }
+            if(arrayValues[i]>2 && arrayValues[i]<=3){
+                x=653-(68*4);
+            }
+            if(arrayValues[i]>3 && arrayValues[i]<=4){
+                x=653-(68*3);
+            }
+            if(arrayValues[i]>4 && arrayValues[i]<=5){
+                x=653-(68*2);
+            }
+            if(arrayValues[i]>5 && arrayValues[i]<=6){
+                x=653-68;
+            }
+            if(arrayValues[i]>6 && arrayValues[i]<=7){
+                x=653;
+            }
 
-        /*Red Points
-        compute coordinate X Y to draw red point, related to average*/
-        if(arrayValues[i]<=1){
-            x=653-(68*6);
+            // Draw red point
+            context.beginPath();
+            context.fillStyle = "#b32400";
+            context.arc(x, y, 5, 0, Math.PI*2);
+            if(arrEmpty[i+1] == 1) {
+                context.fill();
+            }
+            context.closePath();
+            /*Keep coordonate of actual red point in an array
+            used after to draw line between points*/
+            arrayX.push(x);
+            arrayY.push(y);
+            littleLine =0;
+            x=245;
+            y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
         }
+        //Draw line between points
+        for(var i=0;i<numCategory-1;i++){
+            context.beginPath();
+            context.strokeStyle = "#b32400";
+            context.lineWidth = 2;
+            context.moveTo(arrayX[i+1], arrayY[i+1]);//begin point is start point
 
-        if(arrayValues[i]>1 && arrayValues[i]<=2){
-            x=653-(68*5);
+            for(var a = i+1; a<numCategory+1; a++ ) {
+                if (arrEmpty[a] == 1) {
+                    context.lineTo(arrayX[a-1], arrayY[a-1]);//next point is end point
+                    i = numCategory
+                }
+            }
+            context.stroke();
+            context.closePath();
         }
-
-        if(arrayValues[i]>2 && arrayValues[i]<=3){
-            x=653-(68*4);
-        }
-
-        if(arrayValues[i]>3 && arrayValues[i]<=4){
-            x=653-(68*3);
-        }
-
-        if(arrayValues[i]>4 && arrayValues[i]<=5){
-            x=653-(68*2);
-        }
-        if(arrayValues[i]>5 && arrayValues[i]<=6){
-            x=653-68;
-        }
-
-        if(arrayValues[i]>6 && arrayValues[i]<=7){
-            x=653;
-        }
-        // Draw red point
-        context.beginPath();
-        context.fillStyle = "#b32400";
-        context.arc(x, y, 5, 0, Math.PI*2);
-        context.fill();
-        context.closePath();
-
-        /*Keep coordonate of actual red point in an array
-        used after to draw line between points*/
-        arrayX.push(x);
-        arrayY.push(y);
-        littleLine =0;
-        x=245;
-        y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
-
     }
-
-    //Draw line between points
-
-    for(var i=0;i<numCategory-1;i++){
-
-        context.beginPath();
-        context.strokeStyle = "#b32400";
-        context.lineWidth = 2;
-        context.moveTo(arrayX[i+1], arrayY[i+1]);
-        context.lineTo(arrayX[i], arrayY[i]);
-        context.stroke();
-        context.closePath();
-    }
-
-}
 </script>
-
 <?php
-
 //Find good association related to clicked button
 function findAssociation($array, $num)
 {
     $i = 0;
     $num = strval($num);
-
     //Fin category in array from REDCap
     foreach ($array as $element) {
         if ($element->section_header == $num) {
@@ -346,18 +362,14 @@ function findAssociation($array, $num)
         $i++;
     }
 }
-
 //Display infos in the modal
 function displayInfos($array)
 {
     $title;
     $infos;
-
     $nextHyphenPos;
     $end;
-
     foreach ($array as $element) {
-
         //Get title (Text before ":")
         $title = substr($element, 0, strpos($element, ':'));
         //Variables to display info for each category
@@ -366,14 +378,11 @@ function displayInfos($array)
         $arrayTemp = [];
         $i = 0;
         $end = true;
-
         //Seach first "*"
         $nextHyphenPos = strpos($element, '*');
         //Get String since "*"
         $element = substr($element, $nextHyphenPos + 1);
         while ($end !== false) {
-
-
             //Seach next "*"
             $end = strpos($element, '*', 0);
             if ($end !== false) {
@@ -383,10 +392,8 @@ function displayInfos($array)
                 $arrayTemp[$i] = $element;
             }
             $nextHyphenPos = strpos($element, '*', 1);
-
             //Get String since "*"
             $element = substr($element, $nextHyphenPos + 1);
-
         }
         //Display in modal
         echo '<b>' . $title . ':</b> <br>';
@@ -395,11 +402,7 @@ function displayInfos($array)
             echo '<li>' . $arrayTemp[$j] . '</li>';
         }
         echo '</ul> <br>';
-
     }
-
 }
+
 ?>
-
-
-
