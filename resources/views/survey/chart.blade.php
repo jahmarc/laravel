@@ -266,6 +266,7 @@ print_r($bool);
         var arrayY=[];
         var empty =<?php echo $isEmpty;?>;
         var arrEmpty = <?php echo json_encode($bool); ?>;
+        var exit = false;
 
         //Get averages
         <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
@@ -335,22 +336,28 @@ print_r($bool);
             x=245;
             y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
         }
-        //Draw line between points
-        for(var i=0;i<numCategory-1;i++){
-            context.beginPath();
-            context.strokeStyle = "#b32400";
-            context.lineWidth = 2;
-            context.moveTo(arrayX[i+1], arrayY[i+1]);//begin point is start point
 
-            for(var a = i+1; a<numCategory+1; a++ ) {
-                if (arrEmpty[a] == 1) {
-                    context.lineTo(arrayX[a-1], arrayY[a-1]);//next point is end point
-                    i = numCategory
+            //Draw line between points
+            for (var i = 0; i < numCategory - 1; i++) {
+                context.beginPath();
+                context.strokeStyle = "#b32400";
+                context.lineWidth = 2;
+
+
+                for (var a = i; a < numCategory + 1; a++) {
+                    if (arrEmpty[a] == 1) {
+                        context.moveTo(arrayX[i + 1], arrayY[i + 1]);//begin point is start point
+                        context.lineTo(arrayX[a - 1], arrayY[a - 1]);//next point is end point
+                        context.stroke();
+                        i++;
+                    }
+                    else {
+                        i = numCategory;
+                    }
                 }
+
             }
-            context.stroke();
-            context.closePath();
-        }
+
     }
 </script>
 <?php
