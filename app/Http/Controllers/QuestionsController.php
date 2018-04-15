@@ -56,6 +56,7 @@ class QuestionsController extends Controller
         $idChapter = $input['id'];
         $idQuestion = $input['cptQuestions'];
         $isEmpty = false;
+        $isNotEmpty = false;
 
         $size = sizeof($input);
 
@@ -71,7 +72,6 @@ class QuestionsController extends Controller
         }
 
         $average = round($sum/($size-1));
-
 
         $input['record_id'] = $input['_token'];
         $input['avg'.$idChapter] = $average;
@@ -89,31 +89,21 @@ class QuestionsController extends Controller
 
         for($j=1;$j<$idQuestion;$j++){
             if(isset($input['q'.$idChapter.'_'.$j])){
+                $isNotEmpty = true;
             }else{
                 $isEmpty = true;
             }
         }
-        if ($isEmpty == true) {
-            echo '<script language="javascript">';
-            echo 'alert("Le formulaire est imcomplet !")';
-            echo '</script>';
-        }else{
-            echo '<script language="javascript">';
-            echo 'alert("Le formulaire est complètement rempli !")';
-            echo '</script>';
-        }
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
-
 
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
 
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
-
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id']));
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
@@ -178,21 +168,13 @@ class QuestionsController extends Controller
 
         $projectInfo = $project->exportMetadata();
 
-
-
-
         $str     = str_replace('\u','u',$projectInfo);
         $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
 
         $questions = json_decode($strJSON);
 
-
-
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
-
-        //print_r($projectInfo);
 
 
         return view('survey.category', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
@@ -221,10 +203,7 @@ class QuestionsController extends Controller
 
         $datas = json_decode($strJSON);
 
-
         $size = sizeof($datas);
-
-
 
         $bool =array();
 
@@ -319,17 +298,7 @@ class QuestionsController extends Controller
             $bool[11] = $datas[0]->category11bool;
         }
 
-
-
-
-
-
-
         $averages = array($avg1,$avg2,$avg3,$avg4,$avg5,$avg6,$avg7,$avg8,$avg9,$avg10,$avg11);
-
-
-
-
 
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
@@ -344,15 +313,12 @@ class QuestionsController extends Controller
             echo($e->getMessage());
         }
 
-
         $associationsInfo = $project->exportMetadataAss();
-
 
         $str     = str_replace('\u','u',$associationsInfo);
         $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
 
         $associations = json_decode($strJSON);
-
 
         return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
     }

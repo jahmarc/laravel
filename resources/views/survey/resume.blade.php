@@ -16,11 +16,29 @@ $x=1;
                     <div class="panel-body">
                         <table class="table">
                             @foreach($categories as $category)
-
-
-                                <tr><td><a href="./category/<?=$i?>"><?=
+                                <tr>
+                                    <td>
+                                        <a href="./category/<?=$i?>"><?=
                                             $i.')   '.$category;
-                                            ?></a></td></tr>
+                                            ?></a>
+                                    </td>
+                                    <?php
+                                     if (($incomplete == true)&&($complete == true) && ($idChapter == $i)): ?>
+                                        <td>
+                                            <img  src="{{URL::asset('/Images/warning.png')}}" height="25px" width="25px" align="right" title = "La catégorie est partiellement remplie !">
+                                        </td>
+                                    <?php
+                                    elseif (($incomplete == false)&&($complete == true) && ($idChapter == $i)): ?>
+                                        <td>
+                                            <img  src="{{URL::asset('/Images/ok.png')}}" height="25px" width="25px" align="right" title = "La catégorie est complètement remplie !">
+                                        </td>
+                                    <?php
+                                    elseif ($idChapter == $i): ?>
+                                        <td>
+                                            <img  src="{{URL::asset('/Images/ko.png')}}" height="25px" width="25px" align="right" title = "La catégorie est vide !">
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
                                 <?php $i++;?>
                             @endforeach
                         </table>
