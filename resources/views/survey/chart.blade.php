@@ -8,7 +8,7 @@ $numberOfCategories  = count($arrayAverage, null);
 $arrayCategoriesName = $categories;
 $arrayAssociations = $associations;
 $isEmpty = 1;
-print_r($bool);
+//print_r($bool);
 ?>
 @section('content')
     <div class="container">
@@ -197,11 +197,12 @@ print_r($bool);
 
     <table style="width:30% ; border:2px solid green; position: relative; top: -2170px; left: 900px">
 
-        <tr>
-            <th>Legende</th>
+        <tr style="border:1px solid green;">
+
+            <td style="padding: 5px">Legende</td>
         </tr>
         <tr>
-            <td>
+            <td style="padding: 5px">
                     <svg height="100" width="100">
                         <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#b3ffb3" />
                         Sorry, your browser does not support inline SVG.
@@ -238,6 +239,19 @@ print_r($bool);
         </tr>
 
     </table>
+
+    <form action="/action_page.php">
+        <label for="Label_Radio_1">Label_Radio_1</label>
+        <input type="radio" name="radio1" id="radio1" value="radio1"><br>
+    </form>
+    <form action="/action_page.php">
+        <label for="Label_Radio_2">Label_Radio_2</label>
+        <input type="radio" name="radio2" id="radio2" value="radio2"><br>
+    </form>
+    <form action="/action_page.php">
+        <label for="Label_Radio_3">Label_Radio_3</label>
+        <input type="radio" name="radio3" id="radio3" value="radio3"><br>
+    </form>
     </div>
 
     <br>
