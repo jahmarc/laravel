@@ -5,6 +5,8 @@
 <?php
 $i=1;
 $x=1;
+print_r($data);
+var_dump($i);
 ?>
 @section('content')
     <div class="container">

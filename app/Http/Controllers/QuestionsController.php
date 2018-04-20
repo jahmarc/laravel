@@ -67,6 +67,7 @@ class QuestionsController extends Controller
 
         $input['category'.$idChapter.'bool'] = 1;
 
+
         for($i = 2; $i<$size; $i++){
             $sum += $values[$i];
         }
@@ -100,10 +101,17 @@ class QuestionsController extends Controller
 
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
 
+            $records = $project->exportRecords('json', 'flat', $id);
+
+            $str     = str_replace('\u','u',$records);
+            $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
+
+            $datas = json_decode($strJSON);
+
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter));
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'data'=>$datas));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
