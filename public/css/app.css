@@ -2698,6 +2698,7 @@ pre code {
 
     .col-lg-offset-9 {
         margin-left: 3%;
+
     }
 
     .col-lg-offset-10 {
@@ -7111,16 +7112,6 @@ button.close {
 
 
 
-.hep{
-    background-color:red;
-    height: 35px;
-    width: 35px;
-    color:red;
-}
-
-
-
-
 input[type='radio'] {
     width:35px;
     height: 30px;
@@ -7151,16 +7142,13 @@ input[type='radio']:checked:after {
 
 
 
-input[name='radio1']{
+input[name='radio1']:before{
     margin-left: -5.5px;
     margin-top: -3px;
     position: absolute;
-
     width: 35px;
     height: 35px;
     border-radius: 25px;
-
-
     background-color: red;
     content: '';
     display: inline-block;
@@ -7172,9 +7160,17 @@ input[name='radio1']{
 
 
 
+
+
 #radio1:checked:after{
     background-color: red;
+    display:inline-block;
 }
+
+
+
+
+
 
 #radio2:checked:after{
      background-color: #ff7c00;
@@ -7204,5 +7200,40 @@ input[name='radio1']{
 #radio8:checked:after{
     /*background: url(https://res.cloudinary.com/turdlife/image/upload/v1492864443/happy_ampvnc.svg) center;*/
     background-color: black;
+    display:inline-block;
 
 }
+
+
+@media screen and (max-width: 768px) and (max-width: 1024px)  {
+
+    #p{
+        color:red;
+    }
+
+    #bigDivRadio{
+
+    }
+    #bigDivRadio{
+        /* float:left; */
+        color:red;
+        background-color: green;
+        width: 100%;
+
+    }
+
+    label{
+        padding:15px;
+    }
+
+}
+
+#bigDivRadio{
+    float:left; width: 12.5%; text-align: center;/*background-color: yellow;*/
+}
+
+#radio_categorie {
+    float:left;
+    width: 12.5%; text-align: center;
+}
+
