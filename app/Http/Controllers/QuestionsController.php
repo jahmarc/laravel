@@ -137,6 +137,7 @@ class QuestionsController extends Controller
                         $history->survey3=$temp2;
                         $history->survey2=$temp1;
                         $history->survey1=$id[0];
+                        $history->userID=Auth::id();
                     }
                 }
             }
