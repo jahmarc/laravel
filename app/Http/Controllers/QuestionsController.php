@@ -82,19 +82,24 @@ class QuestionsController extends Controller
         unset($input['cptQuestions']);
         $input['survey_complete']='2';
 
+        for($j=1;$j<=$idQuestion;$j++){
+            if(isset($input['q'.$idChapter.'_'.$j])){
+                $isNotEmpty = true;
+                $ar[$j-1] = 1; //use for %progression
+
+            }else{
+                $isEmpty = true;
+                $ar[$j-1] = 0; //use for %progression
+            }
+        }
+
+        $pourcentage=(array_sum($ar))*100/$idQuestion;
+        $input['pourcent'.$idChapter]=$pourcentage;
         $test = '['.json_encode($input).']';
 
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
 
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-
-        for($j=1;$j<$idQuestion;$j++){
-            if(isset($input['q'.$idChapter.'_'.$j])){
-                $isNotEmpty = true;
-            }else{
-                $isEmpty = true;
-            }
-        }
 
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
@@ -111,7 +116,7 @@ class QuestionsController extends Controller
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'data'=>$datas));
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
