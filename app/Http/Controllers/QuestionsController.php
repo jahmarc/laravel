@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use IU\PHPCap\RedCapProject;
 use function Sodium\add;
@@ -50,7 +51,16 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //Creation on an object History to save the ID of survey into database
+        $histories = History::where('userID','=',Auth::id())->get();
+
+       if($histories->isEmpty())
+            $history = new History();
+       else{
+           $history = $histories[0];
+       }
+
         $input = $request->all();
 
         $idChapter = $input['id'];
@@ -102,9 +112,36 @@ class QuestionsController extends Controller
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
 
         try {
+
+            //I create a redcap Project (vendor\phpcap)
             $project = new RedCapProject($apiUrl, $apiToken);
 
+            //I import the record into redcap
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
+
+            if($history->survey1==null) {
+                $history->survey1=$id[0];
+            }
+            elseif ($history->survey1!=$id[0]){
+                if($history->survey2==null) {
+                    $history->survey2=$id[0];
+                }
+                elseif($history->survey2!=$id[0]){
+                    if($history->survey3==null) {
+                        $history->survey3=$id[0];
+                    }
+                    elseif($history->survey3!=$id[0]){
+                        $temp1 = $history->survey1;
+                        $temp2 = $history->survey2;
+
+                        $history->survey3=$temp2;
+                        $history->survey2=$temp1;
+                        $history->survey1=$id[0];
+                    }
+                }
+            }
+
+            $history->save();
 
             $records = $project->exportRecords('json', 'flat', $id);
 
@@ -116,7 +153,10 @@ class QuestionsController extends Controller
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
+            print_r($history);
+
+
+            //return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
