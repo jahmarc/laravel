@@ -55,8 +55,10 @@ class QuestionsController extends Controller
         //Creation on an object History to save the ID of survey into database
         $histories = History::where('userID','=',Auth::id())->get();
 
-       if($histories->isEmpty())
-            $history = new History();
+       if($histories->isEmpty()) {
+           $history = new History();
+           $history->userID = Auth::id();
+       }
        else{
            $history = $histories[0];
        }
@@ -137,7 +139,6 @@ class QuestionsController extends Controller
                         $history->survey3=$temp2;
                         $history->survey2=$temp1;
                         $history->survey1=$id[0];
-                        $history->userID=Auth::id();
                     }
                 }
             }
