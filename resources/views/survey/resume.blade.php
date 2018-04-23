@@ -50,7 +50,7 @@ for ($y=0;$y<sizeof($categories);$y++){
                                             <img  src="{{URL::asset('/Images/warning.png')}}" height="25px" width="25px" align="right" title = "La catégorie est partiellement remplie !">
                                         </td>
                                     <?php endif; ?>
-                                <?php $i++;$y++;?>
+                                <?php $i++;?>
                             @endforeach
                                 </tr>
                         </table>
