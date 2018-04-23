@@ -25,22 +25,16 @@ for ($y=0;$y<sizeof($categories);$y++){
                                             $i.')   '.$category;
                                             ?></a>
                                     </td>
-
                                     <?php
                                     if ( $arPourcent[$i-1] <> ""): ?>
                                     <td>
                                         <div class="progress">
-                                            <!--change here property according to $arPourcent[$i-1]-->
                                             <div class="progress-bar" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $arPourcent[$i-1] ?>%">
                                               <?php echo round($arPourcent[$i-1]).'%' ; ?>
                                             </div>
                                         </div>
                                     </td>
-                                    <?php endif; ?>
-
-
-
-                                    <?php
+                                    <?php endif; ?><?php
                                      if (($arPourcent[$i-1] == 0 ) &&( $arPourcent[$i-1] <> "") ): ?>
                                         <td>
                                             <img  src="{{URL::asset('/Images/ko.png')}}" height="25px" width="25px" align="right" title = "La catégorie est vide !">
