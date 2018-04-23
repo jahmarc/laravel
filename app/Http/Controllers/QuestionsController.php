@@ -157,7 +157,7 @@ class QuestionsController extends Controller
 
 
 
-            //return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }

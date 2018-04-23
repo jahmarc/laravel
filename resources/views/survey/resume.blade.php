@@ -5,12 +5,10 @@
 <?php
 $i=1;
 $x=1;
-//print_r($data);
-//print_r($idChapter); //id catégorie
-//print_r($idQuestion); //total questions of a category
-/*for ($y=1;$y<=$idQuestion;$y++){
-    print_r($y);
-}*/
+for ($y=0;$y<sizeof($categories);$y++){
+    $key = 'pourcent'.($y+1);
+    $arPourcent[]=$data[0]->$key;
+}
 ?>
 @section('content')
     <div class="container">
@@ -28,25 +26,24 @@ $x=1;
                                             ?></a>
                                     </td>
                                     <?php
-                                     if (($incomplete == true)&&($complete == true) && ($idChapter == $i)): ?>
+                                     if (($arPourcent[$i-1] == 0 ) &&( $arPourcent[$i-1] <> "") ): ?>
                                         <td>
-                                            <img  src="{{URL::asset('/Images/warning.png')}}" height="25px" width="25px" align="right" title = "La catégorie est partiellement remplie !">
+                                            <img  src="{{URL::asset('/Images/ko.png')}}" height="25px" width="25px" align="right" title = "La catégorie est vide !">
                                         </td>
                                     <?php
-                                    elseif (($incomplete == false)&&($complete == true) && ($idChapter == $i)): ?>
+                                    elseif ($arPourcent[$i-1] == 100): ?>
                                         <td>
                                             <img  src="{{URL::asset('/Images/ok.png')}}" height="25px" width="25px" align="right" title = "La catégorie est complètement remplie !">
                                         </td>
                                     <?php
-                                    elseif ($idChapter == $i): ?>
+                                    elseif ( $arPourcent[$i-1] <> ""): ?>
                                         <td>
-                                            <img  src="{{URL::asset('/Images/ko.png')}}" height="25px" width="25px" align="right" title = "La catégorie est vide !">
+                                            <img  src="{{URL::asset('/Images/warning.png')}}" height="25px" width="25px" align="right" title = "La catégorie est partiellement remplie !">
                                         </td>
                                     <?php endif; ?>
-
-                                </tr>
-                                <?php $i++;?>
+                                <?php $i++;$y++;?>
                             @endforeach
+                                </tr>
                         </table>
 
                     </div>
