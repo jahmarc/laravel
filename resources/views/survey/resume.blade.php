@@ -32,7 +32,7 @@ for ($y=0;$y<sizeof($categories);$y++){
                                         <div class="progress">
                                             <!--change here property according to $arPourcent[$i-1]-->
                                             <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                                              <?php echo round($arPourcent[$i-1]) ; ?>
+                                              <?php echo round($arPourcent[$i-1]).'%' ; ?>
                                             </div>
                                         </div>
                                     </td>
