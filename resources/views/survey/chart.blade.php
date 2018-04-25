@@ -245,11 +245,11 @@ $isEmpty = 1;
         <td style="padding: 5px">
             <td>
                 <form action="../home">
-                    <input type="button" class="btn btn-info"  value="Graphique 1" name="categ[]">
+                    <input type="button" class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
 
-                    <input type="button" class="btn btn-info"  value="Graphique 2" name="categ[]">
+                    <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
 
-                    <input type="button" class="btn btn-info"  value="Graphique 2" name="categ[]">
+                    <input type="button" class="btn btn-info"  value="Graphique 2" name="gr3" onclick = "displayGraphics(name)">
                 </form>
 
 
@@ -451,12 +451,11 @@ function displayInfos($array)
     }
 }
 //Display graphics with buttons
-function displayGraphics($array)
+function displayGraphics($strButton)
     {
-        foreach($_POST['categ'] as $categ){
-            echo $categ; // correspondra à value des buttons
+         // correspondra à value des buttons
     // reste plus qu'a faire une requete update ou insert
-    }
+
 }
 
 ?>
