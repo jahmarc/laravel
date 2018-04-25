@@ -236,144 +236,161 @@ class QuestionsController extends Controller
     }
 
 
-    public function chart($id){
+    public function chart(){
 
 
+        //I call the APIUrl and the API Token saved in config/app.php
+        //Need them for creating redcapAPI
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
 
+        //I try to create a redcap Project
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
-        } catch (\Exception $e) {
+        }
+        //I catch the redcapException
+        catch (\Exception $e) {
             echo($e->getMessage());
         }
 
-        $recordIds = [$id];
-        $records = $project->exportRecords('json', 'flat', $recordIds);
+        //I store the userID I need to get all survey he got in history (max.3)
+        $userID = Auth::id();
 
-        $str     = str_replace('\u','u',$records);
-        $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
 
-        $datas = json_decode($strJSON);
+        //get the histories of the User
+        $histories = History::where('userID','=',$userID)->get();
 
-        $size = sizeof($datas);
-
-        $bool =array();
-
-        if(property_exists($datas[0],'avg1')) {
-            $avg1 = $datas[0]->avg1;
-            $bool[1] = $datas[0]->category1bool;
+        if($histories->isEmpty()) {
 
         }
-        else{
-            $avg1 =0;
-            $bool[1] = $datas[0]->category1bool;
-        }
+        else {
 
-        if(property_exists($datas[0],'avg2')) {
-            $avg2 = $datas[0]->avg2;
-            $bool[2] = $datas[0]->category2bool;
-        }
-        else{
-            $avg2 =0;
-            $bool[2] = $datas[0]->category2bool;
-        }
-        if(property_exists($datas[0],'avg3')) {
-            $avg3 = $datas[0]->avg3;
-            $bool[3] = $datas[0]->category3bool;
-        }
-        else{
-            $avg3 =0;
-            $bool[3] = $datas[0]->category3bool;
-        }
-        if(property_exists($datas[0],'avg4')) {
-            $avg4 = $datas[0]->avg4;
-            $bool[4] = $datas[0]->category4bool;
-        }
-        else{
-            $avg4 =0;
-            $bool[4] = $datas[0]->category4bool;
-        }
-        if(property_exists($datas[0],'avg5')) {
-            $avg5 = $datas[0]->avg5;
-            $bool[5] = $datas[0]->category5bool;
-        }
-        else{
-            $avg5 =0;
-            $bool[5] = $datas[0]->category5bool;
-        }
-        if(property_exists($datas[0],'avg6')) {
-            $avg6 = $datas[0]->avg6;
-            $bool[6] = $datas[0]->category6bool;
-        }
-        else{
-            $avg6 =0;
-            $bool[6] = $datas[0]->category6bool;
-        }
-        if(property_exists($datas[0],'avg7')) {
-            $avg7 = $datas[0]->avg7;
-            $bool[7] = $datas[0]->category7bool;
-        }
-        else{
-            $avg7 =0;
-            $bool[7] = $datas[0]->category7bool;
-        }
-        if(property_exists($datas[0],'avg8')) {
-            $avg8 = $datas[0]->avg8;
-            $bool[8] = $datas[0]->category8bool;
-        }
-        else{
-            $avg8 =0;
-            $bool[8] = $datas[0]->category8bool;
-        }
-        if(property_exists($datas[0],'avg9')) {
-            $avg9 = $datas[0]->avg9;
-            $bool[9] = $datas[0]->category9bool;
-        }
-        else{
-            $avg9 =0;
-            $bool[9] = $datas[0]->category9bool;
-        }
-        if(property_exists($datas[0],'avg10')) {
-            $avg10 = $datas[0]->avg10;
-            $bool[10] = $datas[0]->category10bool;
-        }
-        else{
-            $avg10 =0;
-            $bool[10] = $datas[0]->category10bool;
-        }
-        if(property_exists($datas[0],'avg11')) {
-            $avg11 = $datas[0]->avg11;
-            $bool[11] = $datas[0]->category11bool;
-        }
-        else{
-            $avg11 =0;
-            $bool[11] = $datas[0]->category11bool;
-        }
 
-        $averages = array($avg1,$avg2,$avg3,$avg4,$avg5,$avg6,$avg7,$avg8,$avg9,$avg10,$avg11);
 
-        $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
-            'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+            $history = $histories[0];
+            $recordIds[] = $history->survey1;
+            $recordIds[] = $history->survey2;
+            $recordIds[] = $history->survey3;
+            $records = $project->exportRecords('json', 'flat', $recordIds);
 
-        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
+            $str = str_replace('\u', 'u', $records);
+            $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
 
-        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+            $datas = json_decode($strJSON);
 
-        try {
-            $project = new RedCapProject($apiUrl, $apiToken);
-        } catch (\Exception $e) {
-            echo($e->getMessage());
+            $size = sizeof($datas);
+
+            $bool = array();
+
+
+           for($x=0; $x<$size; $x++) {
+
+                if (property_exists($datas[0], 'avg1')) {
+                    $avg1 = $datas[$x]->avg1;
+                    $bool[1] = $datas[0]->category1bool;
+
+                } else {
+                    $avg1 = 0;
+                    $bool[1] = $datas[0]->category1bool;
+                }
+
+                if (property_exists($datas[0], 'avg2')) {
+                    $avg2 = $datas[$x]->avg2;
+                    $bool[2] = $datas[0]->category2bool;
+                } else {
+                    $avg2 = 0;
+                    $bool[2] = $datas[0]->category2bool;
+                }
+                if (property_exists($datas[0], 'avg3')) {
+                    $avg3 = $datas[$x]->avg3;
+                    $bool[3] = $datas[0]->category3bool;
+                } else {
+                    $avg3 = 0;
+                    $bool[3] = $datas[0]->category3bool;
+                }
+                if (property_exists($datas[0], 'avg4')) {
+                    $avg4 = $datas[$x]->avg4;
+                    $bool[4] = $datas[0]->category4bool;
+                } else {
+                    $avg4 = 0;
+                    $bool[4] = $datas[0]->category4bool;
+                }
+                if (property_exists($datas[0], 'avg5')) {
+                    $avg5 = $datas[$x]->avg5;
+                    $bool[5] = $datas[0]->category5bool;
+                } else {
+                    $avg5 = 0;
+                    $bool[5] = $datas[0]->category5bool;
+                }
+                if (property_exists($datas[0], 'avg6')) {
+                    $avg6 = $datas[$x]->avg6;
+                    $bool[6] = $datas[0]->category6bool;
+                } else {
+                    $avg6 = 0;
+                    $bool[6] = $datas[0]->category6bool;
+                }
+                if (property_exists($datas[0], 'avg7')) {
+                    $avg7 = $datas[$x]->avg7;
+                    $bool[7] = $datas[0]->category7bool;
+                } else {
+                    $avg7 = 0;
+                    $bool[7] = $datas[0]->category7bool;
+                }
+                if (property_exists($datas[0], 'avg8')) {
+                    $avg8 = $datas[$x]->avg8;
+                    $bool[8] = $datas[0]->category8bool;
+                } else {
+                    $avg8 = 0;
+                    $bool[8] = $datas[0]->category8bool;
+                }
+                if (property_exists($datas[0], 'avg9')) {
+                    $avg9 = $datas[$x]->avg9;
+                    $bool[9] = $datas[0]->category9bool;
+                } else {
+                    $avg9 = 0;
+                    $bool[9] = $datas[0]->category9bool;
+                }
+                if (property_exists($datas[0], 'avg10')) {
+                    $avg10 = $datas[$x]->avg10;
+                    $bool[10] = $datas[0]->category10bool;
+                } else {
+                    $avg10 = 0;
+                    $bool[10] = $datas[0]->category10bool;
+                }
+                if (property_exists($datas[0], 'avg11')) {
+                    $avg11 = $datas[$x]->avg11;
+                    $bool[11] = $datas[0]->category11bool;
+                } else {
+                    $avg11 = 0;
+                    $bool[11] = $datas[0]->category11bool;
+                }
+
+                $averages[$x] = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
+
+            }
+
+            $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+                'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+            $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
+
+            $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+            try {
+                $project = new RedCapProject($apiUrl, $apiToken);
+            } catch (\Exception $e) {
+                echo($e->getMessage());
+            }
+
+            $associationsInfo = $project->exportMetadataAss();
+
+            $str = str_replace('\u', 'u', $associationsInfo);
+            $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
+
+            $associations = json_decode($strJSON);
+
+
+            return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
         }
-
-        $associationsInfo = $project->exportMetadataAss();
-
-        $str     = str_replace('\u','u',$associationsInfo);
-        $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-
-        $associations = json_decode($strJSON);
-
-        return view('survey.chart',array(\Auth::user(),'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
     }
 }
