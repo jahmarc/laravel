@@ -203,10 +203,10 @@ $isEmpty = 1;
         </tr>
         <tr>
             <td style="padding: 5px">
-                    <svg height="100" width="100">
-                        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#b3ffb3" />
-                        Sorry, your browser does not support inline SVG.
-                    </svg>
+                <svg height="100" width="100">
+                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#b3ffb3" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>
             </td>
             <td>
                 description 1
@@ -221,7 +221,7 @@ $isEmpty = 1;
                 </svg>
             </td>
             <td>
-               description 2
+                description 2
             </td>
 
         </tr>
@@ -238,27 +238,33 @@ $isEmpty = 1;
 
         </tr>
 
-    </table>
 
-    <form action="/action_page.php">
-        <label for="Label_Radio_1">Label_Radio_1</label>
-        <input type="radio" name="radio1" id="radio1" value="radio1"><br>
-    </form>
-    <form action="/action_page.php">
-        <label for="Label_Radio_2">Label_Radio_2</label>
-        <input type="radio" name="radio2" id="radio2" value="radio2"><br>
-    </form>
-    <form action="/action_page.php">
-        <label for="Label_Radio_3">Label_Radio_3</label>
-        <input type="radio" name="radio3" id="radio3" value="radio3"><br>
-    </form>
+    </table>
+    <table style="width:30% ; border:2px solid green; position: relative; top: -2140px; left: 900px">
+
+        <td style="padding: 5px">
+            <td>
+                <form action="../home">
+                    <input type="button" class="btn btn-info"  value="Graphique 1" name="categ[]">
+
+                    <input type="button" class="btn btn-info"  value="Graphique 2" name="categ[]">
+
+                    <input type="button" class="btn btn-info"  value="Graphique 2" name="categ[]">
+                </form>
+
+
+            </td>
+
+        </tr>
+
+     </table>
     </div>
 
     <br>
     <br>
     <br>
 
-    </body>
+
 
 @endsection
 
@@ -295,24 +301,33 @@ $isEmpty = 1;
         //Draw horizontal black lines
         for(var i=0;i<numCategory;i++){
             context.beginPath();
-            context.moveTo(245, y);
-            context.lineTo(653, y);
-            context.stroke();
+            if(arrEmpty[i+1] == 1) {
+                if(arrEmpty[i+1] == 1) {
+                    context.moveTo(245, y);
+                    context.lineTo(653, y);
+                }
+                context.stroke();
+            }
             context.closePath();
             //Draw Vertical lines (bar)
             for(var j=0;j<7;j++){
                 if(littleLine%2==1){ //Little line
                     context.beginPath();
-                    context.moveTo(x, y-5);
-                    context.lineTo(x, y+5);
-                    context.stroke();
+                    if(arrEmpty[i+1] == 1) {
+                        context.moveTo(x, y - 5);
+                        context.lineTo(x, y + 5);
+                        context.stroke();
+                    }
                     context.closePath();
                 }
                 else{ //big line
                     context.beginPath();
-                    context.moveTo(x, y-8);
-                    context.lineTo(x, y+8);
-                    context.stroke();
+                    if(arrEmpty[i+1] == 1) {
+
+                        context.moveTo(x, y - 8);
+                        context.lineTo(x, y + 8);
+                        context.stroke();
+                    }
                     context.closePath();
                 }
                 littleLine++;
@@ -358,24 +373,25 @@ $isEmpty = 1;
             x=245;
             y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
         }
-            //Draw line between points
-            for (var i = 0; i < numCategory - 1; i++) {
-                context.beginPath();
-                context.strokeStyle = "#b32400";
-                context.lineWidth = 2;
-                for (var a = i; a < numCategory + 1; a++) {
-                    if (arrEmpty[a] == 1) {
-                        context.moveTo(arrayX[i + 1], arrayY[i + 1]);//begin point is start point
-                        context.lineTo(arrayX[a - 1], arrayY[a - 1]);//next point is end point
-                        context.stroke();
-                        i++;
-                    }
-                    else {
-                        i = numCategory;
-                    }
+        //Draw line between points
+        for (var i = 0; i < numCategory - 1; i++) {
+            context.beginPath();
+            context.strokeStyle = "#b32400";
+            context.lineWidth = 2;
+            for (var a = i; a < numCategory + 1; a++) {
+                if (arrEmpty[a] == 1) {
+                    context.moveTo(arrayX[i + 1], arrayY[i + 1]);//begin point is start point
+                    context.lineTo(arrayX[a - 1], arrayY[a - 1]);//next point is end point
+                    context.stroke();
+                    i++;
                 }
-
+                else {
+                    i = numCategory;
+                }
             }
+
+        }
+
     }
 </script>
 <?php
@@ -434,5 +450,15 @@ function displayInfos($array)
         echo '</ul> <br>';
     }
 }
+//Display graphics with buttons
+function displayGraphics($array)
+    {
+        foreach($_POST['categ'] as $categ){
+            echo $categ; // correspondra à value des buttons
+    // reste plus qu'a faire une requete update ou insert
+    }
+}
 
 ?>
+
+
