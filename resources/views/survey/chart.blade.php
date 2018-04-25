@@ -1,3 +1,21 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Marketplace
+Explore
+@DavidCanoMarquez
+Sign out
+2
+0 0 jahmarc/laravel
+Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
+laravel/resources/views/survey/chart.blade.php
+60052ce  2 hours ago
+@DavidCanoMarquez DavidCanoMarquez Changement canvas (function onclick graphiques buttons)
+@DavidCanoMarquez @jahmarc @stephanie-pinto @ABerclaz
+
+464 lines (409 sloc)  15.4 KB
 <!doctype html>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -31,7 +49,6 @@ $isEmpty = 1;
             <?php for($i=0;$i<$numberOfCategories;$i++){
             if ($bool[$i+1] !=  1)
                 $isEmpty = 0;
-
             ?>
 
             <?php //Alternate 3 colors
@@ -87,7 +104,6 @@ $isEmpty = 1;
         </table  >
         <!-- buttons -->
     <?php
-
     // Take the the canvas higher and add number of category multiply by 60 (pixels)
     $topPosition = (840+($numberOfCategories*60))*-1;?>
     <!-- Display button on the right -->
@@ -243,21 +259,21 @@ $isEmpty = 1;
     <table style="width:30% ; border:2px solid green; position: relative; top: -2140px; left: 900px">
 
         <td style="padding: 5px">
-            <td>
-                <form action="../home">
-                    <input type="button" class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
+        <td>
+            <form action="../home">
+                <input type="button" class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
 
-                    <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
+                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
 
-                    <input type="button" class="btn btn-info"  value="Graphique 2" name="gr3" onclick = "displayGraphics(name)">
-                </form>
+                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr3" onclick = "displayGraphics(name)">
+            </form>
 
 
-            </td>
+        </td>
 
         </tr>
 
-     </table>
+    </table>
     </div>
 
     <br>
@@ -295,7 +311,6 @@ $isEmpty = 1;
         var empty =<?php echo $isEmpty;?>;
         var arrEmpty = <?php echo json_encode($bool); ?>;
         var exit = false;
-
         //Get averages
         <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
         //Draw horizontal black lines
@@ -323,7 +338,6 @@ $isEmpty = 1;
                 else{ //big line
                     context.beginPath();
                     if(arrEmpty[i+1] == 1) {
-
                         context.moveTo(x, y - 8);
                         context.lineTo(x, y + 8);
                         context.stroke();
@@ -356,7 +370,6 @@ $isEmpty = 1;
             if(arrayValues[i]>6 && arrayValues[i]<=7){
                 x=653;
             }
-
             // Draw red point
             context.beginPath();
             context.fillStyle = "#b32400";
@@ -389,9 +402,7 @@ $isEmpty = 1;
                     i = numCategory;
                 }
             }
-
         }
-
     }
 </script>
 <?php
@@ -452,12 +463,21 @@ function displayInfos($array)
 }
 //Display graphics with buttons
 function displayGraphics($strButton)
-    {
-         // correspondra à value des buttons
+{
+    // correspondra à value des buttons
     // reste plus qu'a faire une requete update ou insert
-
 }
-
 ?>
-
-
+© 2018 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+API
+Training
+Shop
+Blog
+About
+Press h to open a hovercard with more details.
