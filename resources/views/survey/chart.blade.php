@@ -316,32 +316,24 @@ $isEmpty = 1;
         //Draw horizontal black lines
         for(var i=0;i<numCategory;i++){
             context.beginPath();
-            if(arrEmpty[i+1] == 1) {
-                if(arrEmpty[i+1] == 1) {
                     context.moveTo(245, y);
                     context.lineTo(653, y);
-                }
                 context.stroke();
-            }
             context.closePath();
             //Draw Vertical lines (bar)
             for(var j=0;j<7;j++){
                 if(littleLine%2==1){ //Little line
                     context.beginPath();
-                    if(arrEmpty[i+1] == 1) {
                         context.moveTo(x, y - 5);
                         context.lineTo(x, y + 5);
                         context.stroke();
-                    }
                     context.closePath();
                 }
                 else{ //big line
                     context.beginPath();
-                    if(arrEmpty[i+1] == 1) {
                         context.moveTo(x, y - 8);
                         context.lineTo(x, y + 8);
                         context.stroke();
-                    }
                     context.closePath();
                 }
                 littleLine++;
