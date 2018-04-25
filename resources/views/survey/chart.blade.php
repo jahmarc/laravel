@@ -53,7 +53,7 @@ $isEmpty = 1;
 
             <?php //Alternate 3 colors
             if($arrayAverage[$i]<3){?>
-            <tr style="height: 60px; " bgcolor= "#b3ffb3"  >
+            <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
@@ -83,7 +83,7 @@ $isEmpty = 1;
             </tr>
             <?php }
             if($arrayAverage[$i]>=6){?>
-            <tr style="height: 60px; " bgcolor= "#ffb3b3" >
+            <tr style="height: 60px; " bgcolor= "#b3ffb3" >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
