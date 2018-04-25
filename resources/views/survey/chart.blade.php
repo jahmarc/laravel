@@ -1,21 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
-@DavidCanoMarquez
-Sign out
-2
-0 0 jahmarc/laravel
-Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
-laravel/resources/views/survey/chart.blade.php
-60052ce  2 hours ago
-@DavidCanoMarquez DavidCanoMarquez Changement canvas (function onclick graphiques buttons)
-@DavidCanoMarquez @jahmarc @stephanie-pinto @ABerclaz
-
-464 lines (409 sloc)  15.4 KB
 <!doctype html>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
