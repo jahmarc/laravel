@@ -1,18 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\History;
 use App\User;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use IU\PHPCap\RedCapProject;
 use function Sodium\add;
-
 class QuestionsController extends Controller
 {
     /**
@@ -23,16 +19,11 @@ class QuestionsController extends Controller
     public function index()
     {
         //Array of category names to display it in the resume table
-
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
-
         //Return view of summary table with categories array and User Authentificated
-
         return view('survey.start', array(\Auth::user(), 'categories' => $categories));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -42,7 +33,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -51,41 +41,29 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-
         //Creation on an object History to save the ID of survey into database
         $histories = History::where('userID','=',Auth::id())->get();
-
-       if($histories->isEmpty()) {
-           $history = new History();
-           $history->userID = Auth::id();
-       }
-       else{
-           $history = $histories[0];
-       }
-
+        if($histories->isEmpty()) {
+            $history = new History();
+            $history->userID = Auth::id();
+        }
+        else{
+            $history = $histories[0];
+        }
         $input = $request->all();
-
         $idChapter = $input['id'];
         $idQuestion = $input['cptQuestions'];
         $isEmpty = false;
         $isNotEmpty = false;
-
         $size = sizeof($input);
-
         $values = array_values($input);
-
         $average = 0;
         $sum = 0;
-
         $input['category'.$idChapter.'bool'] = 1;
-
-
         for($i = 2; $i<$size; $i++){
             $sum += $values[$i];
         }
-
         $average = round($sum/($size-1));
-
         $input['record_id'] = $input['_token'];
         $input['avg'.$idChapter] = $average;
         $input['iduser'] = Auth::id();
@@ -93,34 +71,25 @@ class QuestionsController extends Controller
         unset($input['id']);
         unset($input['cptQuestions']);
         $input['survey_complete']='2';
-
         for($j=1;$j<=$idQuestion;$j++){
             if(isset($input['q'.$idChapter.'_'.$j])){
                 $isNotEmpty = true;
                 $ar[$j-1] = 1; //use for %progression
-
             }else{
                 $isEmpty = true;
                 $ar[$j-1] = 0; //use for %progression
             }
         }
-
         $pourcentage=(array_sum($ar))*100/$idQuestion;
         $input['pourcent'.$idChapter]=$pourcentage;
         $test = '['.json_encode($input).']';
-
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-
         try {
-
             //I create a redcap Project (vendor\phpcap)
             $project = new RedCapProject($apiUrl, $apiToken);
-
             //I import the record into redcap
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
-
             if($history->survey1==null) {
                 $history->survey1=$id[0];
             }
@@ -135,34 +104,24 @@ class QuestionsController extends Controller
                     elseif($history->survey3!=$id[0]){
                         $temp1 = $history->survey1;
                         $temp2 = $history->survey2;
-
                         $history->survey3=$temp2;
                         $history->survey2=$temp1;
                         $history->survey1=$id[0];
                     }
                 }
             }
-
             $history->save();
-
             $records = $project->exportRecords('json', 'flat', $id);
-
             $str     = str_replace('\u','u',$records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-
             $datas = json_decode($strJSON);
-
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
-
-
             return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -173,7 +132,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -184,7 +142,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -196,7 +153,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -207,93 +163,60 @@ class QuestionsController extends Controller
     {
         //
     }
-
     public function category($id){
-
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
-
         $projectInfo = $project->exportMetadata();
-
         $str     = str_replace('\u','u',$projectInfo);
         $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-
         $questions = json_decode($strJSON);
-
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
-
         return view('survey.category', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
-
     }
-
-
     public function chart(){
-
-
         //I call the APIUrl and the API Token saved in config/app.php
         //Need them for creating redcapAPI
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-
         //I try to create a redcap Project
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
         }
-        //I catch the redcapException
+            //I catch the redcapException
         catch (\Exception $e) {
             echo($e->getMessage());
         }
-
         //I store the userID I need to get all survey he got in history (max.3)
         $userID = Auth::id();
-
-
         //get the histories of the User
         $histories = History::where('userID','=',$userID)->get();
-
         if($histories->isEmpty()) {
-
         }
         else {
-
-
-
             $history = $histories[0];
             $recordIds[] = $history->survey1;
             $recordIds[] = $history->survey2;
             $recordIds[] = $history->survey3;
             $records = $project->exportRecords('json', 'flat', $recordIds);
-
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-
             $datas = json_decode($strJSON);
-
             $size = sizeof($datas);
-
             $bool = array();
-
-
-           for($x=0; $x<$size; $x++) {
-
+            for($x=0; $x<$size; $x++) {
                 if (property_exists($datas[0], 'avg1')) {
                     $avg1 = $datas[$x]->avg1;
                     $bool[1] = $datas[0]->category1bool;
-
                 } else {
                     $avg1 = 0;
                     $bool[1] = $datas[0]->category1bool;
                 }
-
                 if (property_exists($datas[0], 'avg2')) {
                     $avg2 = $datas[$x]->avg2;
                     $bool[2] = $datas[0]->category2bool;
@@ -364,32 +287,21 @@ class QuestionsController extends Controller
                     $avg11 = 0;
                     $bool[11] = $datas[0]->category11bool;
                 }
-
                 $averages[$x] = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
-
             }
-
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-
             $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-
             $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-
             try {
                 $project = new RedCapProject($apiUrl, $apiToken);
             } catch (\Exception $e) {
                 echo($e->getMessage());
             }
-
             $associationsInfo = $project->exportMetadataAss();
-
             $str = str_replace('\u', 'u', $associationsInfo);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-
             $associations = json_decode($strJSON);
-
-
             return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
         }
     }

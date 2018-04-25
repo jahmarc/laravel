@@ -35,7 +35,7 @@ $isEmpty = 1;
 
             <?php //Alternate 3 colors
             if($arrayAverage[$i]<3){?>
-            <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
+            <tr style="height: 60px; " bgcolor= "#b3ffb3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
@@ -65,7 +65,7 @@ $isEmpty = 1;
             </tr>
             <?php }
             if($arrayAverage[$i]>=6){?>
-            <tr style="height: 60px; " bgcolor= "#b3ffb3" >
+            <tr style="height: 60px; " bgcolor= "#ffb3b3" >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
@@ -298,24 +298,24 @@ $isEmpty = 1;
         //Draw horizontal black lines
         for(var i=0;i<numCategory;i++){
             context.beginPath();
-                    context.moveTo(245, y);
-                    context.lineTo(653, y);
-                context.stroke();
+            context.moveTo(245, y);
+            context.lineTo(653, y);
+            context.stroke();
             context.closePath();
             //Draw Vertical lines (bar)
             for(var j=0;j<7;j++){
                 if(littleLine%2==1){ //Little line
                     context.beginPath();
-                        context.moveTo(x, y - 5);
-                        context.lineTo(x, y + 5);
-                        context.stroke();
+                    context.moveTo(x, y - 5);
+                    context.lineTo(x, y + 5);
+                    context.stroke();
                     context.closePath();
                 }
                 else{ //big line
                     context.beginPath();
-                        context.moveTo(x, y - 8);
-                        context.lineTo(x, y + 8);
-                        context.stroke();
+                    context.moveTo(x, y - 8);
+                    context.lineTo(x, y + 8);
+                    context.stroke();
                     context.closePath();
                 }
                 littleLine++;
@@ -442,16 +442,3 @@ function displayGraphics($strButton)
     // reste plus qu'a faire une requete update ou insert
 }
 ?>
-© 2018 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
-Press h to open a hovercard with more details.
