@@ -3,7 +3,7 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-$arrayAverage = $averages[0];
+$arrayAverage = $averages;
 $numberOfCategories  = count($arrayAverage, null);
 $arrayCategoriesName = $categories;
 $arrayAssociations = $associations;
@@ -31,6 +31,7 @@ $isEmpty = 1;
             <?php for($i=0;$i<$numberOfCategories;$i++){
             if ($bool[$i+1] !=  1)
                 $isEmpty = 0;
+
             ?>
 
             <?php //Alternate 3 colors
@@ -86,6 +87,7 @@ $isEmpty = 1;
         </table  >
         <!-- buttons -->
     <?php
+
     // Take the the canvas higher and add number of category multiply by 60 (pixels)
     $topPosition = (840+($numberOfCategories*60))*-1;?>
     <!-- Display button on the right -->
@@ -234,28 +236,26 @@ $isEmpty = 1;
                 description 3
             </td>
 
-        </tr>
 
-
-    </table>
-    <table style="width:30% ; border:2px solid green; position: relative; top: -2140px; left: 900px">
-
-        <td style="padding: 5px">
-        <td>
-            <form action="../home">
-                <input type="button" class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
-
-                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
-
-                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr3" onclick = "displayGraphics(name)">
-            </form>
-
-
-        </td>
 
         </tr>
+        <input type="button" name="rdb" value="male"/>
+        <tr>
 
+        </tr>
+        <input type="button" name="rdb" value="male"/>
+        <tr>
+
+        </tr>
+        <input type="button" name="rdb" value="male"/>
+        <tr>
+
+        </tr>
     </table>
+
+
+
+
     </div>
 
     <br>
@@ -293,29 +293,30 @@ $isEmpty = 1;
         var empty =<?php echo $isEmpty;?>;
         var arrEmpty = <?php echo json_encode($bool); ?>;
         var exit = false;
+
         //Get averages
         <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
         //Draw horizontal black lines
         for(var i=0;i<numCategory;i++){
             context.beginPath();
-            context.moveTo(245, y);
-            context.lineTo(653, y);
-            context.stroke();
+                context.moveTo(245, y);
+                context.lineTo(653, y);
+                context.stroke();
             context.closePath();
             //Draw Vertical lines (bar)
             for(var j=0;j<7;j++){
                 if(littleLine%2==1){ //Little line
                     context.beginPath();
-                    context.moveTo(x, y - 5);
-                    context.lineTo(x, y + 5);
-                    context.stroke();
+                        context.moveTo(x, y - 5);
+                        context.lineTo(x, y + 5);
+                        context.stroke();
                     context.closePath();
                 }
                 else{ //big line
                     context.beginPath();
-                    context.moveTo(x, y - 8);
-                    context.lineTo(x, y + 8);
-                    context.stroke();
+                        context.moveTo(x, y - 8);
+                        context.lineTo(x, y + 8);
+                        context.stroke();
                     context.closePath();
                 }
                 littleLine++;
@@ -344,6 +345,7 @@ $isEmpty = 1;
             if(arrayValues[i]>6 && arrayValues[i]<=7){
                 x=653;
             }
+
             // Draw red point
             context.beginPath();
             context.fillStyle = "#b32400";
@@ -376,6 +378,7 @@ $isEmpty = 1;
                     i = numCategory;
                 }
             }
+
         }
     }
 </script>
@@ -435,10 +438,7 @@ function displayInfos($array)
         echo '</ul> <br>';
     }
 }
-//Display graphics with buttons
-function displayGraphics($strButton)
-{
-    // correspondra à value des buttons
-    // reste plus qu'a faire une requete update ou insert
-}
+
 ?>
+
+
