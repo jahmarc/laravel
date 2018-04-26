@@ -50,6 +50,10 @@ class QuestionsController extends Controller
         else{
             $history = $histories[0];
         }
+        session_start();
+        /*session_unset();
+        session_destroy();*/
+        //
         $input = $request->all();
         $idChapter = $input['id'];
         $idQuestion = $input['cptQuestions'];
@@ -60,6 +64,25 @@ class QuestionsController extends Controller
         $average = 0;
         $sum = 0;
         $input['category'.$idChapter.'bool'] = 1;
+
+
+
+        //remplis l'array pour store dans la session
+        $array = array($input);
+
+        //créé toutes les sessions et switch case pour remplir
+
+            $_SESSION["array{$idChapter}"] = $array;
+
+
+
+/*
+        echo "<pre>";
+        print_r($array[$idChapter]);
+        echo "/<pre>";
+   */
+
+
         for($i = 2; $i<$size; $i++){
             $sum += $values[$i];
         }

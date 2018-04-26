@@ -3,9 +3,10 @@
 
 @extends('layouts.app')
 <?php
-$i=1;
-$x=1;
+$i = 1;
+$x = 1;
 $cptQuestions = 0;
+session_start();
 ?>
 @section('content')
 
@@ -13,7 +14,8 @@ $cptQuestions = 0;
         .control {
             font-family: arial;
             /*display: inline-block;
-            */position: relative;
+            */
+            position: relative;
             padding-left: 30px;
             margin-bottom: 5px;
             padding-top: 3px;
@@ -21,6 +23,7 @@ $cptQuestions = 0;
             font-size: 16px;
 
         }
+
         .control input {
             position: absolute;
             z-index: -1;
@@ -37,6 +40,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator0 {
             border-radius: 50%;
         }
@@ -49,24 +53,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator0 {
             background: red;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator0,
         .control input:checked:focus ~ .control_indicator0 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator0 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator0:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator0:after {
             display: block;
         }
+
         .control-radio .control_indicator0:after {
             left: 7px;
             top: 7px;
@@ -75,15 +84,14 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
-        .control-radio input:disabled ~ .control_indicator0:after {
-            background: #7b7b7b;
-        }
 
         .control-radio input:disabled ~ .control_indicator0:after {
             background: #7b7b7b;
         }
 
-
+        .control-radio input:disabled ~ .control_indicator0:after {
+            background: #7b7b7b;
+        }
 
         /** BOUTON 1 */
         .control_indicator1 {
@@ -95,6 +103,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator1 {
             border-radius: 50%;
         }
@@ -107,24 +116,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator1 {
             background: #ff7c00;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator1,
         .control input:checked:focus ~ .control_indicator1 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator1 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator1:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator1:after {
             display: block;
         }
+
         .control-radio .control_indicator1:after {
             left: 7px;
             top: 7px;
@@ -133,14 +147,14 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
-        .control-radio input:disabled ~ .control_indicator1:after {
-            background: #7b7b7b;
-        }
 
         .control-radio input:disabled ~ .control_indicator1:after {
             background: #7b7b7b;
         }
 
+        .control-radio input:disabled ~ .control_indicator1:after {
+            background: #7b7b7b;
+        }
 
         /** BOUTON 2 */
         .control_indicator2 {
@@ -152,6 +166,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator2 {
             border-radius: 50%;
         }
@@ -164,24 +179,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator2 {
             background: #ffd900;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator2,
         .control input:checked:focus ~ .control_indicator2 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator2 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator2:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator2:after {
             display: block;
         }
+
         .control-radio .control_indicator2:after {
             left: 7px;
             top: 7px;
@@ -190,6 +210,7 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
+
         .control-radio input:disabled ~ .control_indicator2:after {
             background: #7b7b7b;
         }
@@ -208,6 +229,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator3 {
             border-radius: 50%;
         }
@@ -220,24 +242,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator3 {
             background: yellow;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator3,
         .control input:checked:focus ~ .control_indicator3 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator3 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator3:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator3:after {
             display: block;
         }
+
         .control-radio .control_indicator3:after {
             left: 7px;
             top: 7px;
@@ -246,6 +273,7 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
+
         .control-radio input:disabled ~ .control_indicator3:after {
             background: #7b7b7b;
         }
@@ -264,6 +292,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator4 {
             border-radius: 50%;
         }
@@ -276,24 +305,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator4 {
             background: #d7ff00;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator4,
         .control input:checked:focus ~ .control_indicator4 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator4 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator4:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator4:after {
             display: block;
         }
+
         .control-radio .control_indicator4:after {
             left: 7px;
             top: 7px;
@@ -302,14 +336,14 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
-        .control-radio input:disabled ~ .control_indicator4:after {
-            background: #7b7b7b;
-        }
 
         .control-radio input:disabled ~ .control_indicator4:after {
             background: #7b7b7b;
         }
 
+        .control-radio input:disabled ~ .control_indicator4:after {
+            background: #7b7b7b;
+        }
 
         /** BOUTON 5 */
         .control_indicator5 {
@@ -321,6 +355,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator5 {
             border-radius: 50%;
         }
@@ -333,24 +368,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator5 {
             background: #97ff06;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator5,
         .control input:checked:focus ~ .control_indicator5 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator5 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator5:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator5:after {
             display: block;
         }
+
         .control-radio .control_indicator5:after {
             left: 7px;
             top: 7px;
@@ -359,6 +399,7 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
+
         .control-radio input:disabled ~ .control_indicator5:after {
             background: #7b7b7b;
         }
@@ -377,6 +418,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator6 {
             border-radius: 50%;
         }
@@ -389,24 +431,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator6 {
             background: limegreen;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator6,
         .control input:checked:focus ~ .control_indicator6 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator6 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator6:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator6:after {
             display: block;
         }
+
         .control-radio .control_indicator6:after {
             left: 7px;
             top: 7px;
@@ -415,15 +462,14 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
-        .control-radio input:disabled ~ .control_indicator6:after {
-            background: #7b7b7b;
-        }
 
         .control-radio input:disabled ~ .control_indicator6:after {
             background: #7b7b7b;
         }
 
-
+        .control-radio input:disabled ~ .control_indicator6:after {
+            background: #7b7b7b;
+        }
 
         /** BOUTON 7 */
         .control_indicator7 {
@@ -435,6 +481,7 @@ $cptQuestions = 0;
             background: #e6e6e6;
             border: 0px solid #000000;
         }
+
         .control-radio .control_indicator7 {
             border-radius: 50%;
         }
@@ -447,24 +494,29 @@ $cptQuestions = 0;
         .control input:checked ~ .control_indicator7 {
             background: black;
         }
+
         .control:hover input:not([disabled]):checked ~ .control_indicator7,
         .control input:checked:focus ~ .control_indicator7 {
             background: #0e6647d;
         }
+
         .control input:disabled ~ .control_indicator7 {
             background: #e6e6e6;
             opacity: 0.6;
             pointer-events: none;
         }
+
         .control_indicator7:after {
             box-sizing: unset;
             content: '';
             position: absolute;
             display: none;
         }
+
         .control input:checked ~ .control_indicator7:after {
             display: block;
         }
+
         .control-radio .control_indicator7:after {
             left: 7px;
             top: 7px;
@@ -473,23 +525,26 @@ $cptQuestions = 0;
             border-radius: 50%;
             background: #ffffff;
         }
-        .control-radio input:disabled ~ .control_indicator7:after {
-            background: #7b7b7b;
-        }
 
         .control-radio input:disabled ~ .control_indicator7:after {
             background: #7b7b7b;
         }
 
-td{
-    width:10%;
-}
+        .control-radio input:disabled ~ .control_indicator7:after {
+            background: #7b7b7b;
+        }
 
-        #pbutton{
+        td {
+            width: 10%;
+        }
+
+        #pbutton {
             margin-top: -40px;
         }
 
-        label{font-size: xx-large;}
+        label {
+            font-size: xx-large;
+        }
     </style>
 
 
@@ -507,7 +562,7 @@ td{
 
                         <div id="form">
 
-                            <legend style="color:#0058ff; "><?= $id.')   '.$categories[$id-1]; ?></legend>
+                            <legend style="color:#0058ff; "><?= $id . ')   ' . $categories[$id - 1]; ?></legend>
 
                             {!! Form::hidden('id',$id) !!}
 
@@ -515,22 +570,303 @@ td{
                                 <title>$category</title>
                             </div>
 
+                            <?php
+                            if(!empty($_SESSION["array{$id}"])){
+
+                            $localarrays = $_SESSION["array{$id}"];
+                            $localarray = $localarrays[0];?>
+
+
                             @foreach($questions as $question)
                                 @if($question->matrix_group_name == 'categorie'.$id)
+                                    @if(array_key_exists('q'.$id.'_'.$i,$localarray))
 
 
                                 <!-- Text Area -->
                                     <div class="form-group">
-                                        <div class="col-lg-offset-9"  style="margin-top: 2%;">
+                                        <div class="col-lg-offset-9" style="margin-top: 2%;">
                                             {!! Form::label('question', $question->field_label, ['class' => '']) !!}
                                         </div>
                                     </div>
 
-                                    <fieldset id="group<?= $i?>" style="padding-bottom: 30px;border-bottom-color: #e4e4e4;border-bottom-width: 0.5px;border-bottom-style: solid;">
+                                    <fieldset id="group<?= $i?>"
+                                              style="padding-bottom: 30px;border-bottom-color: #e4e4e4;border-bottom-width: 0.5px;border-bottom-style: solid;">
                                         <!-- Radio Buttons -->
-                                        <div class="form-group";>
+                                        <div class="form-group" ;>
                                             <div class="col-lg-auto">
-                                                <div class="radio" style="float:left; width: 100%; text-align: center; ">
+                                                <div class="radio"
+                                                     style="float:left; width: 100%; text-align: center; ">
+                                                    <table>
+
+                                                        <tr>
+                                                            <td>
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">0 - Pas du tout</p>
+                                                                    @if($localarray['q'.$id.'_'.$i]==0)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '0', true, ['id' => 'radio1'] ) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
+                                                                    @endif
+
+                                                                    <div class="control_indicator0"
+                                                                         style="margin-left: 47px;"></div>
+                                                                </label>
+                                                            </td>
+
+                                                            <td><!-- BOUTON 1 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">1</p>
+                                                                        @if($localarray['q'.$id.'_'.$i]==1)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '1', true, ['id' => 'radio2']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '1', false, ['id' => 'radio2']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator1"></div>
+                                                                </label>
+                                                            </td>
+
+                                                            <td><!-- BOUTON 2 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">2 - Un peu</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==2)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '2', true, ['id' => 'radio3']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '2', false, ['id' => 'radio3']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator2"
+                                                                         style="margin-left: 47px;"></div>
+                                                                </label>
+                                                            </td>
+
+                                                            <td><!-- BOUTON 3 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">3</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==3)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '3', true, ['id' => 'radio4']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '3', false, ['id' => 'radio4']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator3"></div>
+                                                                </label>
+                                                            </td>
+
+
+                                                            <td><!-- BOUTON 4 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">4 - Assez</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==4)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '4', true, ['id' => 'radio5']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '4', false, ['id' => 'radio5']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator4"
+                                                                         style="margin-left: 47px;"></div>
+                                                                </label>
+                                                            </td>
+
+
+                                                            <td>
+                                                                <!-- BOUTON 5 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">5</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==5)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '5', true, ['id' => 'radio6']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '5', false, ['id' => 'radio6']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator5"></div>
+                                                                </label>
+                                                            </td>
+
+
+                                                            <td>
+
+                                                                <!-- BOUTON 6 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">6 - Tout à fait</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==6)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '6', true, ['id' => 'radio7']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '6', false, ['id' => 'radio7']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator6"
+                                                                         style="margin-left: 47px;"></div>
+                                                                </label>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <!-- BOUTON 7 -->
+                                                                <label class="control control-radio">
+                                                                    <p id="pbutton">Pas concerné</p>
+
+                                                                        @if($localarray['q'.$id.'_'.$i]==7)
+                                                                            {!! Form::radio('q'.$id.'_'.$i, '7', true, ['id' => 'radio8']) !!}
+
+                                                                    @else
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
+                                                                    @endif
+                                                                    <div class="control_indicator7"
+                                                                         style="margin-left: 47px;"></div>
+                                                                </label>
+
+                                                            </td>
+
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div style="margin-bottom:45px">
+                                                <hr style="background-color:white; color:white;    border-top: 1px solid #fff;">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <?php $i++; $cptQuestions++?>
+                                    @else
+                                    <!-- Text Area -->
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-9" style="margin-top: 2%;">
+                                                {!! Form::label('question', $question->field_label, ['class' => '']) !!}
+                                            </div>
+                                        </div>
+
+                                        <fieldset id="group<?= $i?>"
+                                                  style="padding-bottom: 30px;border-bottom-color: #e4e4e4;border-bottom-width: 0.5px;border-bottom-style: solid;">
+                                            <!-- Radio Buttons -->
+                                            <div class="form-group" ;>
+                                                <div class="col-lg-auto">
+                                                    <div class="radio" style="float:left; width: 100%; text-align: center; ">
+
+                                                        <table>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">0 - Pas du tout</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
+                                                                        <div class="control_indicator0"
+                                                                             style="margin-left: 47px;"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                                <td><!-- BOUTON 1 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">1</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '1', false, ['id' => 'radio2']) !!}
+                                                                        <div class="control_indicator1"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                                <td><!-- BOUTON 2 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">2 - Un peu</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '2', false, ['id' => 'radio3']) !!}
+                                                                        <div class="control_indicator2"
+                                                                             style="margin-left: 47px;"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                                <td><!-- BOUTON 3 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">3</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '3', false, ['id' => 'radio4']) !!}
+                                                                        <div class="control_indicator3"></div>
+                                                                    </label>
+                                                                </td>
+
+
+                                                                <td><!-- BOUTON 4 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">4 - Assez</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '4', false, ['id' => 'radio5']) !!}
+                                                                        <div class="control_indicator4"
+                                                                             style="margin-left: 47px;"></div>
+                                                                    </label>
+                                                                </td>
+
+
+                                                                <td>
+                                                                    <!-- BOUTON 5 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">5</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '5', false, ['id' => 'radio6']) !!}
+                                                                        <div class="control_indicator5"></div>
+                                                                    </label>
+                                                                </td>
+
+
+                                                                <td>
+
+                                                                    <!-- BOUTON 6 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">6 - Tout à fait</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '6', false, ['id' => 'radio7']) !!}
+                                                                        <div class="control_indicator6"
+                                                                             style="margin-left: 47px;"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                                <td>
+
+                                                                    <!-- BOUTON 7 -->
+                                                                    <label class="control control-radio">
+                                                                        <p id="pbutton">Pas concerné</p>
+                                                                        {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
+                                                                        <div class="control_indicator7"
+                                                                             style="margin-left: 47px;"></div>
+                                                                    </label>
+
+                                                                </td>
+
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-bottom:45px">
+                                                    <hr style="background-color:white; color:white;    border-top: 1px solid #fff;">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <?php $i++; $cptQuestions++?>
+                                    @endif
+
+                                @endif
+                            @endforeach
+                        <?php
+                        }
+                        else{
+                        ?>
+
+                        @foreach($questions as $question)
+                            @if($question->matrix_group_name == 'categorie'.$id)
+
+
+                            <!-- Text Area -->
+                                <div class="form-group">
+                                    <div class="col-lg-offset-9" style="margin-top: 2%;">
+                                        {!! Form::label('question', $question->field_label, ['class' => '']) !!}
+                                    </div>
+                                </div>
+
+                                <fieldset id="group<?= $i?>"
+                                          style="padding-bottom: 30px;border-bottom-color: #e4e4e4;border-bottom-width: 0.5px;border-bottom-style: solid;">
+                                    <!-- Radio Buttons -->
+                                    <div class="form-group" ;>
+                                        <div class="col-lg-auto">
+                                            <div class="radio" style="float:left; width: 100%; text-align: center; ">
 
 
                                                 <table>
@@ -540,7 +876,8 @@ td{
                                                             <label class="control control-radio">
                                                                 <p id="pbutton">0 - Pas du tout</p>
                                                                 {!! Form::radio('q'.$id.'_'.$i, '0', false, ['id' => 'radio1']) !!}
-                                                                <div class="control_indicator0" style="margin-left: 47px;"></div>
+                                                                <div class="control_indicator0"
+                                                                     style="margin-left: 47px;"></div>
                                                             </label>
                                                         </td>
 
@@ -556,7 +893,8 @@ td{
                                                             <label class="control control-radio">
                                                                 <p id="pbutton">2 - Un peu</p>
                                                                 {!! Form::radio('q'.$id.'_'.$i, '2', false, ['id' => 'radio3']) !!}
-                                                                <div class="control_indicator2" style="margin-left: 47px;"></div>
+                                                                <div class="control_indicator2"
+                                                                     style="margin-left: 47px;"></div>
                                                             </label>
                                                         </td>
 
@@ -569,16 +907,14 @@ td{
                                                         </td>
 
 
-
-
                                                         <td><!-- BOUTON 4 -->
                                                             <label class="control control-radio">
                                                                 <p id="pbutton">4 - Assez</p>
                                                                 {!! Form::radio('q'.$id.'_'.$i, '4', false, ['id' => 'radio5']) !!}
-                                                                <div class="control_indicator4" style="margin-left: 47px;"></div>
+                                                                <div class="control_indicator4"
+                                                                     style="margin-left: 47px;"></div>
                                                             </label>
                                                         </td>
-
 
 
                                                         <td>
@@ -597,7 +933,8 @@ td{
                                                             <label class="control control-radio">
                                                                 <p id="pbutton">6 - Tout à fait</p>
                                                                 {!! Form::radio('q'.$id.'_'.$i, '6', false, ['id' => 'radio7']) !!}
-                                                                <div class="control_indicator6" style="margin-left: 47px;"></div>
+                                                                <div class="control_indicator6"
+                                                                     style="margin-left: 47px;"></div>
                                                             </label>
                                                         </td>
 
@@ -607,29 +944,34 @@ td{
                                                             <label class="control control-radio">
                                                                 <p id="pbutton">Pas concerné</p>
                                                                 {!! Form::radio('q'.$id.'_'.$i, '7', false, ['id' => 'radio8']) !!}
-                                                                <div class="control_indicator7" style="margin-left: 47px;"  ></div>
+                                                                <div class="control_indicator7"
+                                                                     style="margin-left: 47px;"></div>
                                                             </label>
 
                                                         </td>
 
                                                     </tr>
                                                 </table>
-
-
-
-
-
-
                                             </div>
-                                        </div><div style="margin-bottom:45px"><hr style="background-color:white; color:white;    border-top: 1px solid #fff;"></div>
-                                    </fieldset>
-                                    <?php $i++; $cptQuestions++?>
-                                @endif
-                            @endforeach
-                        </div>
+                                        </div>
+                                        <div style="margin-bottom:45px">
+                                            <hr style="background-color:white; color:white;    border-top: 1px solid #fff;">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <?php $i++; $cptQuestions++?>
+                            @endif
+                        @endforeach
+
+                        <?php }
+
+                        ?>
 
 
-                        <!-- Submit Button -->
+
+
+
+                    <!-- Submit Button -->
                         <div class="form-group" style="clear: left; margin-top:40px;">
                             <div class="col-lg-10 col-lg-offset-2">
                                 {!! Form::submit('Enregistrer le chapitre', ['class' => 'btn btn-lg btn-info pull-right'] ) !!}
@@ -637,9 +979,10 @@ td{
                             </div>
                         </div>
 
-                        </fieldset>
+                            </fieldset>
 
                         {!! Form::close()  !!}
+                        </div>
                     </div>
                 </div>
             </div>
