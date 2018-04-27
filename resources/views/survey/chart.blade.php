@@ -15,7 +15,7 @@ session_start();
 @section('content')
     <div class="container">
         <div>
-            <form action="../home">
+            <form action="../back">
                 <input type="submit"class="btn btn-info"value="Retour">
             </form>
         </div>
@@ -37,7 +37,7 @@ session_start();
 
             <?php //Alternate 3 colors
             if($arrayAverage[$i]<3){?>
-            <tr style="height: 60px; " bgcolor= "#b3ffb3"  >
+            <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
@@ -51,7 +51,7 @@ session_start();
                 </td>
             </tr>
             <?php }
-            if($arrayAverage[$i]>=3 && $arrayAverage[$i]<6){?>
+            if($arrayAverage[$i]>=3 && $arrayAverage[$i]<5){?>
             <tr style="height: 60px; " bgcolor= "#ffe0b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b> </td>
@@ -66,8 +66,8 @@ session_start();
                 </td>
             </tr>
             <?php }
-            if($arrayAverage[$i]>=6){?>
-            <tr style="height: 60px; " bgcolor= "#ffb3b3" >
+            if($arrayAverage[$i]>=5){?>
+            <tr style="height: 60px; " bgcolor= "#b3ffb3" >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
                 <!-- Center -->
@@ -326,27 +326,28 @@ session_start();
             }
             /*Red Points
             compute coordinate X Y to draw red point, related to average*/
-            if(arrayValues[i]<=1){
+            if(arrayValues[i]>5&&arrayValues[i]<=6){
                 x=653-(68*6);
             }
-            if(arrayValues[i]>1 && arrayValues[i]<=2){
+            if(arrayValues[i]>4&&arrayValues[i]<=5){
                 x=653-(68*5);
             }
-            if(arrayValues[i]>2 && arrayValues[i]<=3){
+            if(arrayValues[i]>3&&arrayValues[i]<=4){
                 x=653-(68*4);
             }
-            if(arrayValues[i]>3 && arrayValues[i]<=4){
+            if(arrayValues[i]>2&&arrayValues[i]<=3){
                 x=653-(68*3);
             }
-            if(arrayValues[i]>4 && arrayValues[i]<=5){
+            if(arrayValues[i]>1&&arrayValues[i]<=2){
                 x=653-(68*2);
             }
-            if(arrayValues[i]>5 && arrayValues[i]<=6){
+            if(arrayValues[i]>0&&arrayValues[i]<=1){
                 x=653-68;
             }
-            if(arrayValues[i]>6 && arrayValues[i]<=7){
+            if(arrayValues[i]==0){
                 x=653;
             }
+
             // Draw red point
             context.beginPath();
             context.fillStyle = "#b32400";

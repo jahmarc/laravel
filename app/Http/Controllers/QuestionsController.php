@@ -171,25 +171,25 @@ class QuestionsController extends Controller
         session_destroy();*/
         //
 
-        $id = $_SESSION["id"];
+        $ids = $_SESSION["id"];
+        $id = $ids[0];
         $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
         $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
         try {
             //I create a redcap Project (vendor\phpcap)
             $project = new RedCapProject($apiUrl, $apiToken);
 
-            $records = $project->exportRecords('json', 'flat', $id);
+            $records = $project->exportRecords('json', 'flat', $ids);
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $datas = json_decode($strJSON);
+            $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+                'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'data'=>$datas, 'id' => $id));
         }
         catch (\Exception $e) {
             echo($e->getMessage());
         }
-
-            $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
-                'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'data'=>$datas));
 
 
     }
