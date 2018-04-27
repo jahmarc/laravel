@@ -60,6 +60,7 @@ class QuestionsController extends Controller
         $isEmpty = false;
         $isNotEmpty = false;
         $size = sizeof($input);
+        $questionNotEmpty=0;
         $values = array_values($input);
         $average = 0;
         $sum = 0;
@@ -71,8 +72,7 @@ class QuestionsController extends Controller
         $array = array($input);
 
         //créé toutes les sessions et switch case pour remplir
-
-            $_SESSION["array{$idChapter}"] = $array;
+         $_SESSION["array{$idChapter}"] = $array;
 
 
 
@@ -82,11 +82,18 @@ class QuestionsController extends Controller
         echo "/<pre>";
    */
 
-
-        for($i = 2; $i<$size; $i++){
-            $sum += $values[$i];
+        //calculating the average
+        for($i=1;$i<$size;$i++){
+            if($values[$i]!=null){
+                if($values[$i]!=7){
+                    $questionNotEmpty++;
+                    $sum+=$values[$i];
+                }
+            }
         }
-        $average = round($sum/($size-1));
+
+        $average=round($sum/$questionNotEmpty);
+
         $input['record_id'] = $input['_token'];
         $input['avg'.$idChapter] = $average;
         $input['iduser'] = Auth::id();
