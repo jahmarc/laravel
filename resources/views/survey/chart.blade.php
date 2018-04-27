@@ -36,7 +36,22 @@ session_start();
             ?>
 
             <?php //Alternate 3 colors
-            if($arrayAverage[$i]<3){?>
+            if($arrayAverage[$i]== ""){?>
+            <tr style="height: 60px; " bgcolor= "#F2F2F2"  >
+                <!-- Left -->
+                <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
+                <!-- Center -->
+                <td >
+                    <img  src="{{URL::asset('/Images/bad.png')}}" height="18px" width="18px" align="right" >
+                    <img  src="{{URL::asset('/Images/good.png')}}" height="18px" width="18px" align="left">
+                </td>
+                <!-- Right -->
+                <td style="width:100px;">
+
+                </td>
+            </tr>
+            <?php } //Alternate 3 colors
+            if($arrayAverage[$i]>0 && $arrayAverage[$i]<3){?>
             <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
@@ -209,7 +224,7 @@ session_start();
                 </svg>
             </td>
             <td>
-                description 1
+                Sujet maitrisé
             </td>
 
         </tr>
@@ -221,7 +236,7 @@ session_start();
                 </svg>
             </td>
             <td>
-                description 2
+                Sujet moyennement maitrisé
             </td>
 
         </tr>
@@ -233,8 +248,20 @@ session_start();
                 </svg>
             </td>
             <td>
-                description 3
+                Sujet non-maitrisé
             </td>
+        <tr>
+            <td>
+                <svg height="100" width="100">
+                    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="#F2F2F2" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>
+            </td>
+            <td>
+                Non répondu
+            </td>
+
+        </tr>
 
     </table>
 
