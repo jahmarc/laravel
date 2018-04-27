@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'QuestionsController@index')->name('home');
+Route::get('/back', 'QuestionsController@back')->name('back');
 
 Auth::routes();
 

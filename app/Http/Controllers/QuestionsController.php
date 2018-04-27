@@ -18,11 +18,18 @@ class QuestionsController extends Controller
      */
     public function index()
     {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_unset();
+            session_destroy();
+            Session::regenerateToken();
+        }
+
         //Array of category names to display it in the resume table
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
         //Return view of summary table with categories array and User Authentificated
         return view('survey.start', array(\Auth::user(), 'categories' => $categories));
+
     }
     /**
      * Show the form for creating a new resource.
@@ -72,8 +79,8 @@ class QuestionsController extends Controller
         $array = array($input);
 
         //créé toutes les sessions et switch case pour remplir
-         $_SESSION["array{$idChapter}"] = $array;
 
+        $_SESSION["array{$idChapter}"] = $array;
 
 
 /*
@@ -120,6 +127,7 @@ class QuestionsController extends Controller
             $project = new RedCapProject($apiUrl, $apiToken);
             //I import the record into redcap
             $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
+            $_SESSION["id"] = $id;
             if($history->survey1==null) {
                 $history->survey1=$id[0];
             }
@@ -141,7 +149,7 @@ class QuestionsController extends Controller
                 }
             }
             $history->save();
-            $records = $project->exportRecords('json', 'flat', $id);
+            $records = $project->exportRecords('json', 'flat', $_SESSION["id"]);
             $str     = str_replace('\u','u',$records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $datas = json_decode($strJSON);
@@ -151,6 +159,39 @@ class QuestionsController extends Controller
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
+    }
+
+
+
+    public function back()
+    {
+
+        session_start();
+        /*session_unset();
+        session_destroy();*/
+        //
+
+        $id = $_SESSION["id"];
+        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
+        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+        try {
+            //I create a redcap Project (vendor\phpcap)
+            $project = new RedCapProject($apiUrl, $apiToken);
+
+            $records = $project->exportRecords('json', 'flat', $id);
+            $str = str_replace('\u', 'u', $records);
+            $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
+            $datas = json_decode($strJSON);
+        }
+        catch (\Exception $e) {
+            echo($e->getMessage());
+        }
+
+            $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
+                'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'data'=>$datas));
+
+
     }
     /**
      * Display the specified resource.

@@ -9,6 +9,8 @@ $arrayCategoriesName = $categories;
 $arrayAssociations = $associations;
 $isEmpty = 1;
 //print_r($bool);
+session_start();
+
 ?>
 @section('content')
     <div class="container">
@@ -185,8 +187,8 @@ $isEmpty = 1;
         <?php  } ?>
         <tr>
             <td>
-                <form action="../home">
-                    <input type="submit" class="btn btn-info"  value="Recommencer">
+                <form action="../home" >
+                    <input type="submit" class="btn btn-info"  value="Recommencer" >
                 </form>
 
             </td>
