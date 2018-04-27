@@ -18,10 +18,14 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        session_start();
+        if (session_status() == PHP_SESSION_ACTIVE){
+
+            session_reset();
             session_unset();
             session_destroy();
-            Session::regenerateToken();
+            session_write_close();
+            \Session::regenerateToken();
         }
 
         //Array of category names to display it in the resume table
