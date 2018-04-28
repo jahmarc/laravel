@@ -78,8 +78,10 @@ class QuestionsController extends Controller
         //We get back the ID of chapter
         $idChapter = $input['id'];
 
-        //THEO
+        //Total number of questions in a category
         $idQuestion = $input['cptQuestions'];
+
+        //Boolean used to determine the progression of the filling of a category
         $isEmpty = false;
         $isNotEmpty = false;
         $questionNotEmpty=0;
@@ -125,18 +127,26 @@ class QuestionsController extends Controller
         unset($input['cptQuestions']);
         $input['survey_complete']='2';
 
-        //THEO
+        //Loop on all questions of a category
         for($j=1;$j<=$idQuestion;$j++){
+            //Test on each questions to know if the var it's set and not null
             if(isset($input['q'.$idChapter.'_'.$j])){
+                //The question is filled
                 $isNotEmpty = true;
-                $ar[$j-1] = 1; //use for %progression
+                //Increment this var to one to calculate after how much the user answered
+                $ar[$j-1] = 1;
             }else{
+                //The question is not filled
                 $isEmpty = true;
-                $ar[$j-1] = 0; //use for %progression
+                //Increment this var to zero to calculate after how much the user answered
+                $ar[$j-1] = 0;
             }
         }
 
+        //Result of the filling of a category
         $pourcentage=(array_sum($ar))*100/$idQuestion;
+
+        //Set the result, this var have to exist in REDCap
         $input['pourcent'.$idChapter]=$pourcentage;
 
 
