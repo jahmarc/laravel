@@ -4,10 +4,16 @@
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
 $arrayAverage = $averages[0];
+
 $numberOfCategories  = count($arrayAverage, null);
 $arrayCategoriesName = $categories;
 $arrayAssociations = $associations;
 $isEmpty = 1;
+
+$bool1 = true;
+$bool2 = false;
+$bool3 = false;
+
 //print_r($bool);
 session_start();
 
@@ -270,7 +276,7 @@ session_start();
         <td style="padding: 5px">
         <td>
             <form action="../home">
-                <input type="button" class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
+                <input type="button"  class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
 
                 <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
 
@@ -466,7 +472,14 @@ function displayInfos($array)
 //Display graphics with buttons
 function displayGraphics($strButton)
 {
-    // correspondra à value des buttons
-    // reste plus qu'a faire une requete update ou insert
+
+    switch($strButton){
+        case 'gr1':
+            if($bool1 == true){
+
+            }
+
+}
+
 }
 ?>
