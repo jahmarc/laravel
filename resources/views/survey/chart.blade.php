@@ -3,7 +3,7 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-$arrayAverage = $averages[0];
+$arrayAverage = $averages;
 
 $numberOfCategories  = count($arrayAverage, null);
 $arrayCategoriesName = $categories;
