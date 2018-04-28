@@ -18,6 +18,8 @@ class QuestionsController extends Controller
      */
     public function index()
     {
+
+        //To restart the test
         session_start();
         if (session_status() == PHP_SESSION_ACTIVE){
 
@@ -25,12 +27,16 @@ class QuestionsController extends Controller
             session_unset();
             session_destroy();
             session_write_close();
+
+            //New form token
             \Session::regenerateToken();
         }
 
         //Array of category names to display it in the resume table
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+
         //Return view of summary table with categories array and User Authentificated
         return view('survey.start', array(\Auth::user(), 'categories' => $categories));
 
@@ -52,26 +58,34 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //Creation on an object History to save the ID of survey into database
+        //Get the history object in the database by userID
         $histories = History::where('userID','=',Auth::id())->get();
+
+        //If he is empty, we create an new history object and we assign it the userID
         if($histories->isEmpty()) {
             $history = new History();
             $history->userID = Auth::id();
         }
+        //If he isn't empty, we get back the first row, that contains object
         else{
             $history = $histories[0];
         }
         session_start();
-        /*session_unset();
-        session_destroy();*/
-        //
+
+        //We get back the datas inserted in the form of view category.blade.php
         $input = $request->all();
+
+        //We get back the ID of chapter
         $idChapter = $input['id'];
+
+        //THEO
         $idQuestion = $input['cptQuestions'];
         $isEmpty = false;
         $isNotEmpty = false;
-        $size = sizeof($input);
         $questionNotEmpty=0;
+
+        //Initialization for average process
+        $size = sizeof($input);
         $values = array_values($input);
         $average = 0;
         $sum = 0;
@@ -79,19 +93,13 @@ class QuestionsController extends Controller
 
 
 
-        //remplis l'array pour store dans la session
+        //fill the array to store it in the session
         $array = array($input);
 
-        //créé toutes les sessions et switch case pour remplir
-
+        //creation of the session
         $_SESSION["array{$idChapter}"] = $array;
 
 
-/*
-        echo "<pre>";
-        print_r($array[$idChapter]);
-        echo "/<pre>";
-   */
 
         //calculating the average
         for($i=1;$i<$size;$i++){
@@ -105,13 +113,19 @@ class QuestionsController extends Controller
 
         $average=round($sum/$questionNotEmpty);
 
+
+        //we change the name token by record_id for redcap api
         $input['record_id'] = $input['_token'];
+
+        //We add the average of the chapter, the userID and we unset token, id and cptQuestions for redcap api
         $input['avg'.$idChapter] = $average;
         $input['iduser'] = Auth::id();
         unset($input['_token']);
         unset($input['id']);
         unset($input['cptQuestions']);
         $input['survey_complete']='2';
+
+        //THEO
         for($j=1;$j<=$idQuestion;$j++){
             if(isset($input['q'.$idChapter.'_'.$j])){
                 $isNotEmpty = true;
@@ -121,28 +135,46 @@ class QuestionsController extends Controller
                 $ar[$j-1] = 0; //use for %progression
             }
         }
+
         $pourcentage=(array_sum($ar))*100/$idQuestion;
         $input['pourcent'.$idChapter]=$pourcentage;
-        $test = '['.json_encode($input).']';
-        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+
+        //we encode the survey in json for redcap api
+        $survey = '['.json_encode($input).']';
+
+        //We get back from config/app.php the variable api_url and api_token to use redcap
+        $apiUrl = Config::get('app.aliases.api_url');
+        $apiToken = Config::get('app.aliases.api_token');
+
+
         try {
             //I create a redcap Project (vendor\phpcap)
             $project = new RedCapProject($apiUrl, $apiToken);
+
             //I import the record into redcap
-            $id = $project->importRecords($test,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
+            $id = $project->importRecords($survey,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
+
+            //AXEL
             $_SESSION["id"] = $id;
+
+            //I check if history->survey1 is null to fill it
             if($history->survey1==null) {
                 $history->survey1=$id[0];
             }
+            //If not I check if it's same value
             elseif ($history->survey1!=$id[0]){
+                //Then if not I check if survey2 is null to fill it
                 if($history->survey2==null) {
                     $history->survey2=$id[0];
                 }
+                //If not I check if it's same value
                 elseif($history->survey2!=$id[0]){
+                    //Then if not I check if survey3 is null to fill it
                     if($history->survey3==null) {
                         $history->survey3=$id[0];
                     }
+                    //If not I check if it's same value and if not I delete survey3 value to get the 3 recent histories
                     elseif($history->survey3!=$id[0]){
                         $temp1 = $history->survey1;
                         $temp2 = $history->survey2;
@@ -152,13 +184,20 @@ class QuestionsController extends Controller
                     }
                 }
             }
+            //I save the history on database
             $history->save();
+
+            //I get back the record from redcap
             $records = $project->exportRecords('json', 'flat', $_SESSION["id"]);
             $str     = str_replace('\u','u',$records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $datas = json_decode($strJSON);
+
+            //Array of category names to display it in the resume table
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
+
             return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
         } catch (\Exception $e) {
             echo($e->getMessage());
@@ -171,24 +210,28 @@ class QuestionsController extends Controller
     {
 
         session_start();
-        /*session_unset();
-        session_destroy();*/
-        //
 
+        //Get back the id store in session
         $ids = $_SESSION["id"];
         $id = $ids[0];
-        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+        //We get back from config/app.php the variable api_url and api_token to use redcap
+        $apiUrl = Config::get('app.aliases.api_url');
+        $apiToken = Config::get('app.aliases.api_token');
         try {
             //I create a redcap Project (vendor\phpcap)
             $project = new RedCapProject($apiUrl, $apiToken);
 
+            //I get back the record from redcap
             $records = $project->exportRecords('json', 'flat', $ids);
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $datas = json_decode($strJSON);
+
+            //Array of category names to display it in the resume table
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
             return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'data'=>$datas, 'id' => $id));
         }
         catch (\Exception $e) {
@@ -239,26 +282,38 @@ class QuestionsController extends Controller
         //
     }
     public function category($id){
-        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+
+        //We get back from config/app.php the variable api_url and api_token to use redcap
+        $apiUrl = Config::get('app.aliases.api_url');
+        $apiToken = Config::get('app.aliases.api_token');
         try {
+            //Creation of a new RedCapProject
             $project = new RedCapProject($apiUrl, $apiToken);
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
+        //Exportation from Reccap of metadatas (contains questions of the survey)
         $projectInfo = $project->exportMetadata();
         $str     = str_replace('\u','u',$projectInfo);
         $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
         $questions = json_decode($strJSON);
+
+        //Array of category names to display it in the Title of the page
         $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
             'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
+
         return view('survey.category', array(\Auth::user(), 'questions' => $questions, 'id' => $id, 'categories' => $categories));
     }
+
+    //Function to build the chart
     public function chart(){
+
         //I call the APIUrl and the API Token saved in config/app.php
         //Need them for creating redcapAPI
-        $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-        $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
+        $apiUrl = Config::get('app.aliases.api_url');
+        $apiToken = Config::get('app.aliases.api_token');
+
+
         //I try to create a redcap Project
         try {
             $project = new RedCapProject($apiUrl, $apiToken);
@@ -271,19 +326,27 @@ class QuestionsController extends Controller
         $userID = Auth::id();
         //get the histories of the User
         $histories = History::where('userID','=',$userID)->get();
+
+        //I check if history is empty
         if($histories->isEmpty()) {
         }
+
+        //If not I fill the recordIDs to get back the sruveys from redcap
         else {
-            $history = $histories[0];
+           $history = $histories[0];
             $recordIds[0] = $history->survey1;
-            $recordIds[1] = $history->survey2;
-            $recordIds[2] = $history->survey3;
+    //        $recordIds[] = $history->survey2;
+    //        $recordIds[] = $history->survey3;
             $records = $project->exportRecords('json', 'flat', $recordIds);
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $datas = json_decode($strJSON);
+
+
             $size = sizeof($datas);
             $bool = array();
+
+            //Gett all the averages from redcap and get all the checks
             for($x=0; $x<$size; $x++) {
                 if (property_exists($datas[0], 'avg1')) {
                     $avg1 = $datas[$x]->avg1;
@@ -362,22 +425,24 @@ class QuestionsController extends Controller
                     $avg11 = 0;
                     $bool[11] = $datas[0]->category11bool;
                 }
-                $averages[$x] = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
+
+                //We build an array of averages for the view
+                $averages = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
             }
+
+            //Get all the categories name to display them
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
-            $apiUrl = Config::get('app.aliases.api_url');  # replace this URL with your institution's # REDCap API URL.
-            $apiToken = Config::get('app.aliases.api_token');    # replace with your actual API token
-            try {
-                $project = new RedCapProject($apiUrl, $apiToken);
-            } catch (\Exception $e) {
-                echo($e->getMessage());
-            }
+
+
+            //Get all the associations informations to fill the Helps buttons
             $associationsInfo = $project->exportMetadataAss();
             $str = str_replace('\u', 'u', $associationsInfo);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $associations = json_decode($strJSON);
-           return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
+
+
+            return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
         }
     }
 }
