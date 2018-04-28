@@ -275,9 +275,9 @@ class QuestionsController extends Controller
         }
         else {
             $history = $histories[0];
-            $recordIds[] = $history->survey1;
-            $recordIds[] = $history->survey2;
-            $recordIds[] = $history->survey3;
+            $recordIds[0] = $history->survey1;
+            $recordIds[1] = $history->survey2;
+            $recordIds[2] = $history->survey3;
             $records = $project->exportRecords('json', 'flat', $recordIds);
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
@@ -377,7 +377,7 @@ class QuestionsController extends Controller
             $str = str_replace('\u', 'u', $associationsInfo);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
             $associations = json_decode($strJSON);
-            return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
+           return view('survey.chart', array(\Auth::user(), 'averages' => $averages, 'categories' => $categories, 'associations' => $associations, 'bool' => $bool));
         }
     }
 }
