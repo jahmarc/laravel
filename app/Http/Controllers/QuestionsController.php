@@ -334,7 +334,7 @@ class QuestionsController extends Controller
         //If not I fill the recordIDs to get back the sruveys from redcap
         else {
            $history = $histories[0];
-            $recordIds = $history->survey1;
+            $recordIds[0] = $history->survey1;
     //        $recordIds[] = $history->survey2;
     //        $recordIds[] = $history->survey3;
             $records = $project->exportRecords('json', 'flat', $recordIds);
