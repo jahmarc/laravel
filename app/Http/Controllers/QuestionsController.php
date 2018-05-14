@@ -92,6 +92,7 @@ class QuestionsController extends Controller
 
         //Remove the first and the second element of the array (token, idChapter)
         array_splice($values,0,2);
+        
         //Remove the last element of the array (avg)
         array_pop($values);
 
