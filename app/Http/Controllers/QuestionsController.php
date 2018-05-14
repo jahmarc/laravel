@@ -84,16 +84,16 @@ class QuestionsController extends Controller
         //Boolean used to determine the progression of the filling of a category
         $isEmpty = false;
         $isNotEmpty = false;
-        $questionNotEmpty=0;
 
         //Initialization for average process
-        $size = sizeof($input);
         $values = array_values($input);
-        $average = 0;
         $sum = 0;
         $input['category'.$idChapter.'bool'] = 1;
 
-
+        //Remove the first and the second element of the array (token, idChapter)
+        array_splice($values,0,2);
+        //Remove the last element of the array (avg)
+        array_pop($values);
 
         //fill the array to store it in the session
         $array = array($input);
@@ -101,20 +101,18 @@ class QuestionsController extends Controller
         //creation of the session
         $_SESSION["array{$idChapter}"] = $array;
 
-
-
         //calculating the average
-        for($i=1;$i<$size;$i++){
-            if($values[$i]!=null){
-                if($values[$i]!=7){
-                    $questionNotEmpty++;
-                    $sum+=$values[$i];
+        for($i=0;$i<=$idQuestion;$i++){
+            if (isset($values[$i])){
+                if($values[$i]!=null){
+                    if($values[$i]!=7){
+                        $sum+=$values[$i];
+                    }
                 }
             }
         }
 
-        $average=round($sum/$questionNotEmpty);
-
+        $average=round($sum/$idQuestion);
 
         //we change the name token by record_id for redcap api
         $input['record_id'] = $input['_token'];
