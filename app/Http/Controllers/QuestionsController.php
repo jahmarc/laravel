@@ -165,7 +165,7 @@ class QuestionsController extends Controller
             //I import the record into redcap
             $id = $project->importRecords($survey,$format = 'php', $type = 'flat', $overwriteBehavior = 'normal', $dateFormat = 'YMD', $returnContent = 'ids');
 
-            //AXEL
+            //Fill the session variable id, with the id of the current category
             $_SESSION["id"] = $id;
 
             //I check if history->survey1 is null to fill it
