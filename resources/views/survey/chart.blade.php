@@ -14,7 +14,7 @@ $bool1 = true;
 $bool2 = false;
 $bool3 = false;
 
-//print_r($bool);
+//print_r($arrayAverage);
 session_start();
 
 ?>
@@ -57,7 +57,7 @@ session_start();
                 </td>
             </tr>
             <?php } //Alternate 3 colors
-            if($arrayAverage[$i]>0 && $arrayAverage[$i]<3){?>
+            else if($arrayAverage[$i]>0 && $arrayAverage[$i]<3){?>
             <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b></td>
@@ -72,7 +72,7 @@ session_start();
                 </td>
             </tr>
             <?php }
-            if($arrayAverage[$i]>=3 && $arrayAverage[$i]<5){?>
+            else if($arrayAverage[$i]>=3 && $arrayAverage[$i]<5){?>
             <tr style="height: 60px; " bgcolor= "#ffe0b3"  >
                 <!-- Left -->
                 <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b> </td>
@@ -87,6 +87,21 @@ session_start();
                 </td>
             </tr>
             <?php }
+                else if($arrayAverage[$i]==0 ){?>
+                <tr style="height: 60px; " bgcolor= "#ffb3b3"  >
+                    <!-- Left -->
+                    <td style="width:200px; padding-left: 6px"><b><?php echo $arrayCategoriesName[$i];?></b> </td>
+                    <!-- Center -->
+                    <td>
+                        <img  src="{{URL::asset('/Images/bad.png')}}" height="18px" width="18px" align="right">
+                        <img  src="{{URL::asset('/Images/good.png')}}" height="18px" width="18px" align="left">
+                    </td>
+                    <!-- Right -->
+                    <td style="width:100px;">
+
+                    </td>
+                </tr>
+                <?php }
             if($arrayAverage[$i]>=5){?>
             <tr style="height: 60px; " bgcolor= "#b3ffb3" >
                 <!-- Left -->
