@@ -19,7 +19,7 @@ for ($y=0;$y<sizeof($categories);$y++){
                     <div class="panel-body">
                         <table class="table">
                             @foreach($categories as $category)
-                                <tr>
+                                <tr style="height: 65px; ">
                                     <td>
                                         <a href="./category/<?=$i?>"><?=
                                             $i.')   '.$category;

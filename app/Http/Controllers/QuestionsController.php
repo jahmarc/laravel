@@ -133,17 +133,17 @@ class QuestionsController extends Controller
                 //The question is filled
                 $isNotEmpty = true;
                 //Increment this var to one to calculate after how much the user answered
-                $ar[$j-1] = 1;
+                $arrayCptPourcent[$j-1] = 1;
             }else{
                 //The question is not filled
                 $isEmpty = true;
                 //Increment this var to zero to calculate after how much the user answered
-                $ar[$j-1] = 0;
+                $arrayCptPourcent[$j-1] = 0;
             }
         }
 
         //Result of the filling of a category
-        $pourcentage=(array_sum($ar))*100/$idQuestion;
+        $pourcentage=(array_sum($arrayCptPourcent))*100/$idQuestion;
 
         //Set the result, this var have to exist in REDCap
         $input['pourcent'.$idChapter]=$pourcentage;
@@ -207,7 +207,7 @@ class QuestionsController extends Controller
                 'Qualité du répit', 'Soutien émotionnel ou social formel', 'Soutien émotionnel ou social informel', 'Soutien pratique', 'Soutien financier ou légal');
 
 
-            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'ar' =>$ar));
+            return view('survey.resume', array(\Auth::user(), 'categories' => $categories, 'id' => $input['record_id'], 'incomplete' =>$isEmpty, 'complete' =>$isNotEmpty, 'idChapter'=>$idChapter, 'idQuestion'=>$idQuestion, 'data'=>$datas, 'arrayCptPourcent' =>$arrayCptPourcent));
         } catch (\Exception $e) {
             echo($e->getMessage());
         }
