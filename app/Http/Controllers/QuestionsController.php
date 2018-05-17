@@ -344,99 +344,108 @@ class QuestionsController extends Controller
         else {
            $history = $histories[0];
             $recordIds[0] = $history->survey1;
-    //        $recordIds[] = $history->survey2;
-    //        $recordIds[] = $history->survey3;
-            $records = $project->exportRecords('json', 'flat', $recordIds);
+            $recordId2[0] = $history->survey2;
+            $recordId3[0] = $history->survey3;
+            $record1 = $project->exportRecords('json', 'flat', $recordIds);
+            $record2 = $project->exportRecords('json', 'flat', $recordId2);
+            $record3 = $project->exportRecords('json', 'flat', $recordId3);
+            $record1 = substr($record1, 0, -1);
+            $record2 = substr($record2, 1, -1);
+            $record3 = substr($record3,1);
+
+            $records = $record1.','.$record2.','.$record3;
+
+
             $str = str_replace('\u', 'u', $records);
             $strJSON = preg_replace('/u([\da-fA-F]{4})/', '&#x\1;', $str);
-            $datas = json_decode($strJSON);
 
+            $datas = json_decode($strJSON);
 
             $size = sizeof($datas);
             $bool = array();
 
             //Gett all the averages from redcap and get all the checks
             for($x=0; $x<$size; $x++) {
-                if (property_exists($datas[0], 'avg1')) {
+                if (property_exists($datas[$x], 'avg1')) {
                     $avg1 = $datas[$x]->avg1;
-                    $bool[1] = $datas[0]->category1bool;
+                    $bool[$x][1] = $datas[$x]->category1bool;
                 } else {
                     $avg1 = 0;
-                    $bool[1] = $datas[0]->category1bool;
+                    $bool[$x][1] = $datas[$x]->category1bool;
                 }
-                if (property_exists($datas[0], 'avg2')) {
+                if (property_exists($datas[$x], 'avg2')) {
                     $avg2 = $datas[$x]->avg2;
-                    $bool[2] = $datas[0]->category2bool;
+                    $bool[$x][2] = $datas[$x]->category2bool;
                 } else {
                     $avg2 = 0;
-                    $bool[2] = $datas[0]->category2bool;
+                    $bool[$x][2] = $datas[$x]->category2bool;
                 }
-                if (property_exists($datas[0], 'avg3')) {
+                if (property_exists($datas[$x], 'avg3')) {
                     $avg3 = $datas[$x]->avg3;
-                    $bool[3] = $datas[0]->category3bool;
+                    $bool[$x][3] = $datas[$x]->category3bool;
                 } else {
                     $avg3 = 0;
-                    $bool[3] = $datas[0]->category3bool;
+                    $bool[$x][3] = $datas[$x]->category3bool;
                 }
-                if (property_exists($datas[0], 'avg4')) {
+                if (property_exists($datas[$x], 'avg4')) {
                     $avg4 = $datas[$x]->avg4;
-                    $bool[4] = $datas[0]->category4bool;
+                    $bool[$x][4] = $datas[$x]->category4bool;
                 } else {
                     $avg4 = 0;
-                    $bool[4] = $datas[0]->category4bool;
+                    $bool[$x][4] = $datas[$x]->category4bool;
                 }
-                if (property_exists($datas[0], 'avg5')) {
+                if (property_exists($datas[$x], 'avg5')) {
                     $avg5 = $datas[$x]->avg5;
-                    $bool[5] = $datas[0]->category5bool;
+                    $bool[$x][5] = $datas[$x]->category5bool;
                 } else {
                     $avg5 = 0;
-                    $bool[5] = $datas[0]->category5bool;
+                    $bool[$x][5] = $datas[$x]->category5bool;
                 }
-                if (property_exists($datas[0], 'avg6')) {
+                if (property_exists($datas[$x], 'avg6')) {
                     $avg6 = $datas[$x]->avg6;
-                    $bool[6] = $datas[0]->category6bool;
+                    $bool[$x][6] = $datas[$x]->category6bool;
                 } else {
                     $avg6 = 0;
-                    $bool[6] = $datas[0]->category6bool;
+                    $bool[$x][6] = $datas[$x]->category6bool;
                 }
-                if (property_exists($datas[0], 'avg7')) {
+                if (property_exists($datas[$x], 'avg7')) {
                     $avg7 = $datas[$x]->avg7;
-                    $bool[7] = $datas[0]->category7bool;
+                    $bool[$x][7] = $datas[$x]->category7bool;
                 } else {
                     $avg7 = 0;
-                    $bool[7] = $datas[0]->category7bool;
+                    $bool[$x][7] = $datas[$x]->category7bool;
                 }
-                if (property_exists($datas[0], 'avg8')) {
+                if (property_exists($datas[$x], 'avg8')) {
                     $avg8 = $datas[$x]->avg8;
-                    $bool[8] = $datas[0]->category8bool;
+                    $bool[$x][8] = $datas[$x]->category8bool;
                 } else {
                     $avg8 = 0;
-                    $bool[8] = $datas[0]->category8bool;
+                    $bool[$x][8] = $datas[$x]->category8bool;
                 }
-                if (property_exists($datas[0], 'avg9')) {
+                if (property_exists($datas[$x], 'avg9')) {
                     $avg9 = $datas[$x]->avg9;
-                    $bool[9] = $datas[0]->category9bool;
+                    $bool[$x][9] = $datas[$x]->category9bool;
                 } else {
                     $avg9 = 0;
-                    $bool[9] = $datas[0]->category9bool;
+                    $bool[$x][9] = $datas[$x]->category9bool;
                 }
-                if (property_exists($datas[0], 'avg10')) {
+                if (property_exists($datas[$x], 'avg10')) {
                     $avg10 = $datas[$x]->avg10;
-                    $bool[10] = $datas[0]->category10bool;
+                    $bool[$x][10] = $datas[$x]->category10bool;
                 } else {
                     $avg10 = 0;
-                    $bool[10] = $datas[0]->category10bool;
+                    $bool[$x][10] = $datas[$x]->category10bool;
                 }
-                if (property_exists($datas[0], 'avg11')) {
+                if (property_exists($datas[$x], 'avg11')) {
                     $avg11 = $datas[$x]->avg11;
-                    $bool[11] = $datas[0]->category11bool;
+                    $bool[$x][11] = $datas[$x]->category11bool;
                 } else {
                     $avg11 = 0;
-                    $bool[11] = $datas[0]->category11bool;
+                    $bool[$x][11] = $datas[$x]->category11bool;
                 }
 
                 //We build an array of averages for the view
-                $averages = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
+                $averages[$x] = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
             }
 
             //Get all the categories name to display them

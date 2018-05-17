@@ -3,21 +3,19 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-$arrayAverage = $averages;
+$arrayAverage = $averages[0];
+$arrayAverage2 =$averages[1];
+$arrayAverage3 =$averages[2];
 
 $numberOfCategories  = count($arrayAverage, null);
 $arrayCategoriesName = $categories;
 $arrayAssociations = $associations;
 $isEmpty = 1;
 
-$bool1 = true;
-$bool2 = false;
-$bool3 = false;
-
-//print_r($arrayAverage);
 session_start();
 
 ?>
+
 @section('content')
     <div class="container">
         <div>
@@ -25,6 +23,9 @@ session_start();
                 <input type="submit"class="btn btn-info"value="Retour">
             </form>
         </div>
+
+
+
         <!-- Area where statistic will be draw -->
         <canvas id="my_chart" width="670" height="840" >
             Message pour les navigateurs ne supportant pas encore canvas.
@@ -37,7 +38,7 @@ session_start();
 
 
             <?php for($i=0;$i<$numberOfCategories;$i++){
-            if ($bool[$i+1] !=  1)
+            if ($bool[0][$i+1] !=  1)
                 $isEmpty = 0;
             ?>
 
@@ -291,11 +292,11 @@ session_start();
         <td style="padding: 5px">
         <td>
             <form action="../home">
-                <input type="button"  class="btn btn-info"  value="Graphique 1" name="gr1" onclick = "displayGraphics(name)">
+                <input type="button"  class="btn btn-info"  value="Historique 1" name="gr1" onclick = "button1Clicked();">
 
-                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr2" onclick = "displayGraphics(name)">
+                <input type="button" class="btn btn-info"  value="Historique 2" name="gr2" onclick = "button2Clicked();">
 
-                <input type="button" class="btn btn-info"  value="Graphique 2" name="gr3" onclick = "displayGraphics(name)">
+                <input type="button" class="btn btn-info"  value="Rafraîchir" name="gr3" onclick = "button3Clicked();">
             </form>
 
 
@@ -342,7 +343,7 @@ session_start();
         var arrayX=[];
         var arrayY=[];
         var empty =<?php echo $isEmpty;?>;
-        var arrEmpty = <?php echo json_encode($bool); ?>;
+        var arrEmpty = <?php echo json_encode($bool[0]); ?>;
         var exit = false;
         //Get averages
         <?php echo "var arrayValues = ". json_encode($arrayAverage).";\n";?>
@@ -428,6 +429,7 @@ session_start();
 
     }
 </script>
+
 <?php
 //Find good association related to clicked button
 function findAssociation($array, $num)
@@ -483,18 +485,193 @@ function displayInfos($array)
         }
         echo '</ul> <br>';
     }
-}
-//Display graphics with buttons
-function displayGraphics($strButton)
-{
 
-    switch($strButton){
-        case 'gr1':
-            if($bool1 == true){
 
-            }
-
-}
 
 }
 ?>
+<script type="text/javascript">
+
+
+
+    function button1Clicked()
+    {
+        var canvas = document.getElementById('my_chart');
+        if(!canvas)
+        {
+            alert("Impossible de récupérer le canvas");
+            return;
+        }
+        var context = canvas.getContext('2d');
+        if(!context)
+        {
+            alert("Impossible de récupérer le context du canvas");
+            return;
+        }
+        var x = 245;
+        var y = 36
+        //Get value from PHP
+        var numCategory = <?php echo $numberOfCategories;?>;
+        var littleLine =0; //To alternate little and big vertical bar
+        //Positions
+        var arrayX=[];
+        var arrayY=[];
+        var arrEmpty2 = <?php echo json_encode($bool[1]); ?>;
+
+        var exit = false;
+        //Get averages
+            <?php echo "var arrayValues2 = ". json_encode($arrayAverage2).";\n";?>
+
+        for(var i=0;i<numCategory;i++){
+
+
+            /*Red Points
+            compute coordinate X Y to draw red point, related to average*/
+            if(arrayValues2[i]>5&&arrayValues2[i]<=6){
+                x=653-(68*6);
+            }
+            if(arrayValues2[i]>4&&arrayValues2[i]<=5){
+                x=653-(68*5);
+            }
+            if(arrayValues2[i]>3&&arrayValues2[i]<=4){
+                x=653-(68*4);
+            }
+            if(arrayValues2[i]>2&&arrayValues2[i]<=3){
+                x=653-(68*3);
+            }
+            if(arrayValues2[i]>1&&arrayValues2[i]<=2){
+                x=653-(68*2);
+            }
+            if(arrayValues2[i]>0&&arrayValues2[i]<=1){
+                x=653-68;
+            }
+            if(arrayValues2[i]==0){
+                x=653;
+            }
+
+            // Draw red point
+            context.beginPath();
+            context.fillStyle = "#001db2";
+            context.arc(x, y, 5, 0, Math.PI*2);
+            if(arrEmpty2[i+1] == 1) {
+                context.fill();
+            }
+            context.closePath();
+            /*Keep coordonate of actual red point in an array
+            used after to draw line between points*/
+            arrayX.push(x);
+            arrayY.push(y);
+            littleLine =0;
+            x=245;
+            y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
+        }
+        //Draw line between points
+        for (var i = 0; i < numCategory - 1; i++) {
+
+            if ((arrEmpty2[i+1] == 1)&&(arrEmpty2[i+2] == 1) ){
+                context.beginPath();
+                context.strokeStyle = "#001db2";
+                context.lineWidth = 2;
+                context.moveTo(arrayX[i + 1], arrayY[i + 1]);
+                context.lineTo(arrayX[i], arrayY[i]);
+                context.stroke();
+                context.closePath();
+            }
+        }
+    }
+
+     function button2Clicked()
+     {
+
+         var canvas = document.getElementById('my_chart');
+         if(!canvas)
+         {
+             alert("Impossible de récupérer le canvas");
+             return;
+         }
+         var context = canvas.getContext('2d');
+         if(!context)
+         {
+             alert("Impossible de récupérer le context du canvas");
+             return;
+         }
+         var x = 245;
+         var y = 36
+         //Get value from PHP
+         var numCategory = <?php echo $numberOfCategories;?>;
+         var littleLine =0; //To alternate little and big vertical bar
+         //Positions
+         var arrayX=[];
+         var arrayY=[];
+         var arrEmpty3 = <?php echo json_encode($bool[2]); ?>;
+
+         var exit = false;
+         //Get averages
+         <?php echo "var arrayValues3 = ". json_encode($arrayAverage3).";\n";?>
+
+         for(var i=0;i<numCategory;i++){
+
+
+             /*Red Points
+             compute coordinate X Y to draw red point, related to average*/
+             if(arrayValues3[i]>5&&arrayValues3[i]<=6){
+                 x=653-(68*6);
+             }
+             if(arrayValues3[i]>4&&arrayValues3[i]<=5){
+                 x=653-(68*5);
+             }
+             if(arrayValues3[i]>3&&arrayValues3[i]<=4){
+                 x=653-(68*4);
+             }
+             if(arrayValues3[i]>2&&arrayValues3[i]<=3){
+                 x=653-(68*3);
+             }
+             if(arrayValues3[i]>1&&arrayValues3[i]<=2){
+                 x=653-(68*2);
+             }
+             if(arrayValues3[i]>0&&arrayValues3[i]<=1){
+                 x=653-68;
+             }
+             if(arrayValues3[i]==0){
+                 x=653;
+             }
+
+             // Draw red point
+             context.beginPath();
+             context.fillStyle = "#17b200";
+             context.arc(x, y, 5, 0, Math.PI*2);
+             if(arrEmpty3[i+1] == 1) {
+                 context.fill();
+             }
+             context.closePath();
+             /*Keep coordonate of actual red point in an array
+             used after to draw line between points*/
+             arrayX.push(x);
+             arrayY.push(y);
+             littleLine =0;
+             x=245;
+             y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
+         }
+         //Draw line between points
+         for (var i = 0; i < numCategory - 1; i++) {
+
+             if ((arrEmpty3[i+1] == 1)&&(arrEmpty3[i+2] == 1) ){
+                 context.beginPath();
+                 context.strokeStyle = "#17b200";
+                 context.lineWidth = 2;
+                 context.moveTo(arrayX[i + 1], arrayY[i + 1]);
+                 context.lineTo(arrayX[i], arrayY[i]);
+                 context.stroke();
+                 context.closePath();
+             }
+         }
+
+     }
+
+     function button3Clicked()
+     {
+         location.reload();
+     }
+
+
+</script>
