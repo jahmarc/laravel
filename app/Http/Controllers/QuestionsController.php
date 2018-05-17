@@ -342,17 +342,28 @@ class QuestionsController extends Controller
 
         //If not I fill the recordIDs to get back the sruveys from redcap
         else {
-           $history = $histories[0];
+
+            $history = $histories[0];
+
+            //3 different var because of order in exportation, the order of the 1st in history isn't necessary the 1st after export
+            //So I made 3 different var of IDS and 3 exportations
             $recordIds[0] = $history->survey1;
             $recordId2[0] = $history->survey2;
             $recordId3[0] = $history->survey3;
+
+            //3 Exportations in 3 var
             $record1 = $project->exportRecords('json', 'flat', $recordIds);
             $record2 = $project->exportRecords('json', 'flat', $recordId2);
             $record3 = $project->exportRecords('json', 'flat', $recordId3);
+
+            //I delete the last char (]) of record1
             $record1 = substr($record1, 0, -1);
+            //I delete the  first([) and last char (]) of record2
             $record2 = substr($record2, 1, -1);
+            //I delete the  first char ([) of record3
             $record3 = substr($record3,1);
 
+            // I make one simple var for everything in good format (,) betweeen the surveys
             $records = $record1.','.$record2.','.$record3;
 
 
@@ -361,7 +372,11 @@ class QuestionsController extends Controller
 
             $datas = json_decode($strJSON);
 
+
+            //I get the size of $datas to know if there is 1 survey, 2 or 3 surveys
             $size = sizeof($datas);
+
+            //var to store the checks if empty or not
             $bool = array();
 
             //Gett all the averages from redcap and get all the checks
