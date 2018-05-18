@@ -292,9 +292,9 @@ session_start();
         <td style="padding: 5px">
         <td>
             <form action="../home">
-                <input type="button"  class="btn btn-info"  value="Historique 1" name="gr1" onclick = "button1Clicked();">
+                <input type="button"  class="btn btn-info" style="background-color: blue;"  value="Historique 1" name="gr1" onclick = "button1Clicked();">
 
-                <input type="button" class="btn btn-info"  value="Historique 2" name="gr2" onclick = "button2Clicked();">
+                <input type="button" class="btn btn-info" style="background-color: green;"  value="Historique 2" name="gr2" onclick = "button2Clicked();">
 
                 <input type="button" class="btn btn-info"  value="Rafraîchir" name="gr3" onclick = "button3Clicked();">
             </form>
