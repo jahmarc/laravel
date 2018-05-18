@@ -89,6 +89,7 @@ class QuestionsController extends Controller
         $values = array_values($input);
         $sum = 0;
         $input['category'.$idChapter.'bool'] = 1;
+        $questionNotEmpty = 0;
 
         //Remove the first and the second element of the array (token, idChapter)
         array_splice($values,0,2);
@@ -108,12 +109,13 @@ class QuestionsController extends Controller
                 if($values[$i]!=null){
                     if($values[$i]!=7){
                         $sum+=$values[$i];
+                        $questionNotEmpty++;
                     }
                 }
-            }
+        }
         }
 
-        $average=round($sum/$idQuestion);
+        $average=round($sum/$questionNotEmpty);
 
         //we change the name token by record_id for redcap api
         $input['record_id'] = $input['_token'];
