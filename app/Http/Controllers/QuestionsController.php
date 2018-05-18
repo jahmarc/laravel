@@ -356,10 +356,12 @@ class QuestionsController extends Controller
             //3 Exportations in 3 var
             $record1 = $project->exportRecords('json', 'flat', $recordIds);
 
-            if($recordId2!=null)
+            
+
+            if($recordId2[0]!=null)
                 $record2 = $project->exportRecords('json', 'flat', $recordId2);
 
-            if($recordId3!=null)
+            if($recordId3[0]!=null)
                 $record3 = $project->exportRecords('json', 'flat', $recordId3);
 
             //I delete the last char (]) of record1
