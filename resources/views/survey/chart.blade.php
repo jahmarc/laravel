@@ -3,7 +3,7 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-    
+
 
 $sizeavg = sizeof($averages);
 $sizebool = sizeof($bool);
