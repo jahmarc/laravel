@@ -387,7 +387,7 @@ class QuestionsController extends Controller
                 $records = $record1;
             }
 
-            
+
 
 
             $str = str_replace('\u', 'u', $records);
