@@ -356,13 +356,37 @@ class QuestionsController extends Controller
             //3 Exportations in 3 var
             $record1 = $project->exportRecords('json', 'flat', $recordIds);
 
-            
 
-            if($recordId2[0]!=null)
+
+            if($recordId2[0]!=null) {
                 $record2 = $project->exportRecords('json', 'flat', $recordId2);
+                if($recordId3[0]!=null) {
+                    $record3 = $project->exportRecords('json', 'flat', $recordId3);
+                    //I delete the last char (]) of record1
+                    $record1 = substr($record1, 0, -1);
+                    //I delete the  first([) and last char (]) of record2
+                    $record2 = substr($record2, 1, -1);
+                    //I delete the  first char ([) of record3
+                    $record3 = substr($record3,1);
 
-            if($recordId3[0]!=null)
-                $record3 = $project->exportRecords('json', 'flat', $recordId3);
+                    // I make one simple var for everything in good format (,) betweeen the surveys
+                    $records = $record1.','.$record2.','.$record3;
+                }
+                else{
+                    //I delete the last char (]) of record1
+                    $record1 = substr($record1, 0, -1);
+                    //I delete the  first([) and last char (]) of record2
+                    $record2 = substr($record2, 1);
+
+                    // I make one simple var for everything in good format (,) betweeen the surveys
+                    $records = $record1.','.$record2;
+                }
+            }
+            else{
+
+                $records = $record1;
+            }
+
 
             //I delete the last char (]) of record1
             $record1 = substr($record1, 0, -1);
