@@ -112,10 +112,15 @@ class QuestionsController extends Controller
                         $questionNotEmpty++;
                     }
                 }
-        }
+            }
         }
 
-        $average=round($sum/$questionNotEmpty);
+        //Prevent the division by 0
+        if ($questionNotEmpty===0){
+            $average = 0;
+        }else{
+            $average=round($sum/$questionNotEmpty);
+        }
 
         //we change the name token by record_id for redcap api
         $input['record_id'] = $input['_token'];
