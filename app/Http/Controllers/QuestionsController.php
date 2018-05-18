@@ -387,16 +387,7 @@ class QuestionsController extends Controller
                 $records = $record1;
             }
 
-
-            //I delete the last char (]) of record1
-            $record1 = substr($record1, 0, -1);
-            //I delete the  first([) and last char (]) of record2
-            $record2 = substr($record2, 1, -1);
-            //I delete the  first char ([) of record3
-            $record3 = substr($record3,1);
-
-            // I make one simple var for everything in good format (,) betweeen the surveys
-            $records = $record1.','.$record2.','.$record3;
+            
 
 
             $str = str_replace('\u', 'u', $records);
