@@ -3,17 +3,28 @@
 
 @extends('layouts.app')
 <?php //Get averages, nuber of categories and categoriesName
-        $sizeavg = sizeof($averages);
+    
 
-        for($z=0; $z<$sizeavg; $z++){
-            switch ($z){
-                case 0 :
-                    $arrayAverage = $averages[0];
-                case 1:
-                    $arrayAverage2 = $averages[1];
-                case 2:
-                    $arrayAverage3 = $averages[2];
-            }
+$sizeavg = sizeof($averages);
+$sizebool = sizeof($bool);
+for($z=0; $z<$sizeavg; $z++){
+    switch ($z){
+        case 0 :
+            $arrayAverage = $averages[0];
+            $arrayAverage2 = 0;
+            $arrayAverage3 = 0;
+            $bool2 = 0;
+            $bool3=0;
+            break;
+        case 1:
+            $arrayAverage2 = $averages[1];
+            $bool2 = json_encode($bool[1]);
+            break;
+        case 2:
+            $arrayAverage3 = $averages[2];
+            $bool3 = json_encode($bool[2]);
+            break;
+    }
 }
 
 $numberOfCategories  = count($arrayAverage, null);
@@ -301,11 +312,19 @@ session_start();
         <td style="padding: 5px">
         <td>
             <form action="../home">
+                <?php if($sizeavg>1){ ?>
                 <input type="button"  class="btn btn-info" style="background-color: blue;"  value="Historique 1" name="gr1" onclick = "button1Clicked();">
+                <?php } ?>
 
+                <?php if($sizeavg>2){ ?>
                 <input type="button" class="btn btn-info" style="background-color: green;"  value="Historique 2" name="gr2" onclick = "button2Clicked();">
-
+                <?php } ?>
+                <?php if($sizeavg>1){ ?>
                 <input type="button" class="btn btn-info"  value="Rafraîchir" name="gr3" onclick = "button3Clicked();">
+                <?php } ?>
+                    <?php if($sizeavg==1){ ?>
+                    Pas d'historique
+                    <?php } ?>
             </form>
 
 
@@ -505,173 +524,176 @@ function displayInfos($array)
 
     function button1Clicked()
     {
-        var canvas = document.getElementById('my_chart');
-        if(!canvas)
-        {
-            alert("Impossible de récupérer le canvas");
-            return;
-        }
-        var context = canvas.getContext('2d');
-        if(!context)
-        {
-            alert("Impossible de récupérer le context du canvas");
-            return;
-        }
-        var x = 245;
-        var y = 36
-        //Get value from PHP
-        var numCategory = <?php echo $numberOfCategories;?>;
-        var littleLine =0; //To alternate little and big vertical bar
-        //Positions
-        var arrayX=[];
-        var arrayY=[];
-        var arrEmpty2 = <?php echo json_encode($bool[1]); ?>;
+        <?php echo "var avgsize = ".$sizeavg.";"?>
 
-        var exit = false;
-        //Get averages
-            <?php echo "var arrayValues2 = ". json_encode($arrayAverage2).";\n";?>
+        if(avgsize>1) {
+            var canvas = document.getElementById('my_chart');
+            if (!canvas) {
+                alert("Impossible de récupérer le canvas");
+                return;
+            }
+            var context = canvas.getContext('2d');
+            if (!context) {
+                alert("Impossible de récupérer le context du canvas");
+                return;
+            }
+            var x = 245;
+            var y = 36
+            //Get value from PHP
+            var numCategory = <?php echo $numberOfCategories;?>;
+            var littleLine = 0; //To alternate little and big vertical bar
+            //Positions
+            var arrayX = [];
+            var arrayY = [];
+            var arrEmpty2 = <?php echo $bool2; ?>;
 
-        for(var i=0;i<numCategory;i++){
+            var exit = false;
+            //Get averages
+                <?php echo "var arrayValues2 = " . json_encode($arrayAverage2) . ";\n";?>
+
+            for (var i = 0; i < numCategory; i++) {
 
 
-            /*Red Points
-            compute coordinate X Y to draw red point, related to average*/
-            if(arrayValues2[i]>5&&arrayValues2[i]<=6){
-                x=653-(68*6);
-            }
-            if(arrayValues2[i]>4&&arrayValues2[i]<=5){
-                x=653-(68*5);
-            }
-            if(arrayValues2[i]>3&&arrayValues2[i]<=4){
-                x=653-(68*4);
-            }
-            if(arrayValues2[i]>2&&arrayValues2[i]<=3){
-                x=653-(68*3);
-            }
-            if(arrayValues2[i]>1&&arrayValues2[i]<=2){
-                x=653-(68*2);
-            }
-            if(arrayValues2[i]>0&&arrayValues2[i]<=1){
-                x=653-68;
-            }
-            if(arrayValues2[i]==0){
-                x=653;
-            }
+                /*Red Points
+                compute coordinate X Y to draw red point, related to average*/
+                if (arrayValues2[i] > 5 && arrayValues2[i] <= 6) {
+                    x = 653 - (68 * 6);
+                }
+                if (arrayValues2[i] > 4 && arrayValues2[i] <= 5) {
+                    x = 653 - (68 * 5);
+                }
+                if (arrayValues2[i] > 3 && arrayValues2[i] <= 4) {
+                    x = 653 - (68 * 4);
+                }
+                if (arrayValues2[i] > 2 && arrayValues2[i] <= 3) {
+                    x = 653 - (68 * 3);
+                }
+                if (arrayValues2[i] > 1 && arrayValues2[i] <= 2) {
+                    x = 653 - (68 * 2);
+                }
+                if (arrayValues2[i] > 0 && arrayValues2[i] <= 1) {
+                    x = 653 - 68;
+                }
+                if (arrayValues2[i] == 0) {
+                    x = 653;
+                }
 
-            // Draw red point
-            context.beginPath();
-            context.fillStyle = "#001db2";
-            context.arc(x, y, 5, 0, Math.PI*2);
-            if(arrEmpty2[i+1] == 1) {
-                context.fill();
-            }
-            context.closePath();
-            /*Keep coordonate of actual red point in an array
-            used after to draw line between points*/
-            arrayX.push(x);
-            arrayY.push(y);
-            littleLine =0;
-            x=245;
-            y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
-        }
-        //Draw line between points
-        for (var i = 0; i < numCategory - 1; i++) {
-
-            if ((arrEmpty2[i+1] == 1)&&(arrEmpty2[i+2] == 1) ){
+                // Draw red point
                 context.beginPath();
-                context.strokeStyle = "#001db2";
-                context.lineWidth = 2;
-                context.moveTo(arrayX[i + 1], arrayY[i + 1]);
-                context.lineTo(arrayX[i], arrayY[i]);
-                context.stroke();
+                context.fillStyle = "#001db2";
+                context.arc(x, y, 5, 0, Math.PI * 2);
+                if (arrEmpty2[i + 1] == 1) {
+                    context.fill();
+                }
                 context.closePath();
+                /*Keep coordonate of actual red point in an array
+                used after to draw line between points*/
+                arrayX.push(x);
+                arrayY.push(y);
+                littleLine = 0;
+                x = 245;
+                y += 60; //Prepare coordonate for the next horizontal line (60 pixels below)
+            }
+            //Draw line between points
+            for (var i = 0; i < numCategory - 1; i++) {
+
+                if ((arrEmpty2[i + 1] == 1) && (arrEmpty2[i + 2] == 1)) {
+                    context.beginPath();
+                    context.strokeStyle = "#001db2";
+                    context.lineWidth = 2;
+                    context.moveTo(arrayX[i + 1], arrayY[i + 1]);
+                    context.lineTo(arrayX[i], arrayY[i]);
+                    context.stroke();
+                    context.closePath();
+                }
             }
         }
     }
 
      function button2Clicked()
      {
+         <?php echo "var avgsize = ".$sizeavg.";"?>
 
-         var canvas = document.getElementById('my_chart');
-         if(!canvas)
-         {
-             alert("Impossible de récupérer le canvas");
-             return;
-         }
-         var context = canvas.getContext('2d');
-         if(!context)
-         {
-             alert("Impossible de récupérer le context du canvas");
-             return;
-         }
-         var x = 245;
-         var y = 36
-         //Get value from PHP
-         var numCategory = <?php echo $numberOfCategories;?>;
-         var littleLine =0; //To alternate little and big vertical bar
-         //Positions
-         var arrayX=[];
-         var arrayY=[];
-         var arrEmpty3 = <?php echo json_encode($bool[2]); ?>;
+         if(avgsize>2) {
+             var canvas = document.getElementById('my_chart');
+             if (!canvas) {
+                 alert("Impossible de récupérer le canvas");
+                 return;
+             }
+             var context = canvas.getContext('2d');
+             if (!context) {
+                 alert("Impossible de récupérer le context du canvas");
+                 return;
+             }
+             var x = 245;
+             var y = 36
+             //Get value from PHP
+             var numCategory = <?php echo $numberOfCategories;?>;
+             var littleLine = 0; //To alternate little and big vertical bar
+             //Positions
+             var arrayX = [];
+             var arrayY = [];
+             var arrEmpty3 = <?php echo $bool3; ?>;
 
-         var exit = false;
-         //Get averages
-         <?php echo "var arrayValues3 = ". json_encode($arrayAverage3).";\n";?>
+             var exit = false;
+             //Get averages
+                 <?php echo "var arrayValues3 = " . json_encode($arrayAverage3) . ";\n";?>
 
-         for(var i=0;i<numCategory;i++){
+             for (var i = 0; i < numCategory; i++) {
 
 
-             /*Red Points
-             compute coordinate X Y to draw red point, related to average*/
-             if(arrayValues3[i]>5&&arrayValues3[i]<=6){
-                 x=653-(68*6);
-             }
-             if(arrayValues3[i]>4&&arrayValues3[i]<=5){
-                 x=653-(68*5);
-             }
-             if(arrayValues3[i]>3&&arrayValues3[i]<=4){
-                 x=653-(68*4);
-             }
-             if(arrayValues3[i]>2&&arrayValues3[i]<=3){
-                 x=653-(68*3);
-             }
-             if(arrayValues3[i]>1&&arrayValues3[i]<=2){
-                 x=653-(68*2);
-             }
-             if(arrayValues3[i]>0&&arrayValues3[i]<=1){
-                 x=653-68;
-             }
-             if(arrayValues3[i]==0){
-                 x=653;
-             }
+                 /*Red Points
+                 compute coordinate X Y to draw red point, related to average*/
+                 if (arrayValues3[i] > 5 && arrayValues3[i] <= 6) {
+                     x = 653 - (68 * 6);
+                 }
+                 if (arrayValues3[i] > 4 && arrayValues3[i] <= 5) {
+                     x = 653 - (68 * 5);
+                 }
+                 if (arrayValues3[i] > 3 && arrayValues3[i] <= 4) {
+                     x = 653 - (68 * 4);
+                 }
+                 if (arrayValues3[i] > 2 && arrayValues3[i] <= 3) {
+                     x = 653 - (68 * 3);
+                 }
+                 if (arrayValues3[i] > 1 && arrayValues3[i] <= 2) {
+                     x = 653 - (68 * 2);
+                 }
+                 if (arrayValues3[i] > 0 && arrayValues3[i] <= 1) {
+                     x = 653 - 68;
+                 }
+                 if (arrayValues3[i] == 0) {
+                     x = 653;
+                 }
 
-             // Draw red point
-             context.beginPath();
-             context.fillStyle = "#17b200";
-             context.arc(x, y, 5, 0, Math.PI*2);
-             if(arrEmpty3[i+1] == 1) {
-                 context.fill();
-             }
-             context.closePath();
-             /*Keep coordonate of actual red point in an array
-             used after to draw line between points*/
-             arrayX.push(x);
-             arrayY.push(y);
-             littleLine =0;
-             x=245;
-             y+=60; //Prepare coordonate for the next horizontal line (60 pixels below)
-         }
-         //Draw line between points
-         for (var i = 0; i < numCategory - 1; i++) {
-
-             if ((arrEmpty3[i+1] == 1)&&(arrEmpty3[i+2] == 1) ){
+                 // Draw red point
                  context.beginPath();
-                 context.strokeStyle = "#17b200";
-                 context.lineWidth = 2;
-                 context.moveTo(arrayX[i + 1], arrayY[i + 1]);
-                 context.lineTo(arrayX[i], arrayY[i]);
-                 context.stroke();
+                 context.fillStyle = "#17b200";
+                 context.arc(x, y, 5, 0, Math.PI * 2);
+                 if (arrEmpty3[i + 1] == 1) {
+                     context.fill();
+                 }
                  context.closePath();
+                 /*Keep coordonate of actual red point in an array
+                 used after to draw line between points*/
+                 arrayX.push(x);
+                 arrayY.push(y);
+                 littleLine = 0;
+                 x = 245;
+                 y += 60; //Prepare coordonate for the next horizontal line (60 pixels below)
+             }
+             //Draw line between points
+             for (var i = 0; i < numCategory - 1; i++) {
+
+                 if ((arrEmpty3[i + 1] == 1) && (arrEmpty3[i + 2] == 1)) {
+                     context.beginPath();
+                     context.strokeStyle = "#17b200";
+                     context.lineWidth = 2;
+                     context.moveTo(arrayX[i + 1], arrayY[i + 1]);
+                     context.lineTo(arrayX[i], arrayY[i]);
+                     context.stroke();
+                     context.closePath();
+                 }
              }
          }
 
@@ -679,7 +701,11 @@ function displayInfos($array)
 
      function button3Clicked()
      {
-         location.reload();
+         <?php echo "var avgsize = ".$sizeavg.";"?>
+
+         if(avgsize>1) {
+             location.reload();
+         }
      }
 
 

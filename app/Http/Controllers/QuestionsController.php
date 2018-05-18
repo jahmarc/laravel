@@ -182,13 +182,16 @@ class QuestionsController extends Controller
             elseif ($history->survey1!=$id[0]){
                 //Then if not I check if survey2 is null to fill it
                 if($history->survey2==null) {
-                    $history->survey2=$id[0];
+                    $history->survey2=$history->survey1;
+                    $history->survey1=$id[0];
                 }
                 //If not I check if it's same value
                 elseif($history->survey2!=$id[0]){
                     //Then if not I check if survey3 is null to fill it
                     if($history->survey3==null) {
-                        $history->survey3=$id[0];
+                        $history->survey3=$history->survey2;
+                        $history->survey2=$history->survey1;
+                        $history->survey1=$id[0];
                     }
                     //If not I check if it's same value and if not I delete survey3 value to get the 3 recent histories
                     elseif($history->survey3!=$id[0]){
@@ -401,9 +404,8 @@ class QuestionsController extends Controller
             $datas = json_decode($strJSON);
 
 
-            //I get the size of $datas to know if there is 1 survey, 2 or 3 surveys
+                //I get the size of $datas to know if there is 1 survey, 2 or 3 surveys
             $size = sizeof($datas);
-
             //var to store the checks if empty or not
             $bool = array();
 
@@ -489,7 +491,10 @@ class QuestionsController extends Controller
 
                 //We build an array of averages for the view
                 $averages[$x] = array($avg1, $avg2, $avg3, $avg4, $avg5, $avg6, $avg7, $avg8, $avg9, $avg10, $avg11);
+
             }
+
+
 
             //Get all the categories name to display them
             $categories = array('Informations sur la maladie', 'Informations sur l\'accompagnement', 'Compétences d\'accompagnement', 'Possibilités de soutien', 'Besoin de souffler', 'Possibilités de répit',
